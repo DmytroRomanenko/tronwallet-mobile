@@ -66,7 +66,7 @@ class Confirm extends React.Component {
       Answers.logCustom('Wallet Operation', { type: 'Create' })
       await this._handleSuccess()
     } catch (error) {
-      console.warn(error)
+      // console.warn(error)
       Alert.alert(tl.t('seed.confirm.error.title'), tl.t('seed.confirm.error.message'))
       this.setState({ loading: false })
     }

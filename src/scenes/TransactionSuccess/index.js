@@ -1,10 +1,10 @@
 import React, { PureComponent } from 'react'
 import { NavigationActions, StackActions } from 'react-navigation'
-import Ionicons from 'react-native-vector-icons/Ionicons'
-
+import LottieView from 'lottie-react-native'
 import tl from '../../utils/i18n'
 import { SuccessSpecialMessage } from '../../components/SpecialMessage'
-import { Icon, SuccessText, Wrapper, ContinueButton } from './elements'
+import { SuccessText, Wrapper } from './elements'
+import { View } from '../../../node_modules/react-native-animatable'
 
 class TransactionsSuccess extends PureComponent {
   _navigateNext = () => {
@@ -24,21 +24,23 @@ class TransactionsSuccess extends PureComponent {
   }
 
   _renderMiddleContent = () => (
-    <Wrapper>
-      <Icon source={require('../../assets/checked.png')} />
-      <SuccessText>{tl.t('transactionSuccess.submitted')}</SuccessText>
-    </Wrapper>
+    <View>
+      <Wrapper>
+        <LottieView
+          source={require('./../../assets/animations/checked_done_.json')}
+          autoPlay
+          loop={false}
+          resizeMode='cover'
+          style={{ width: 400 }}
+        />
+      </Wrapper>
+    </View>
   )
 
-  _renderBottomContent = () => (
-    <ContinueButton onPress={this._navigateNext}>
-      <Ionicons
-        name='ios-arrow-round-forward'
-        size={54}
-        color='white'
-      />
-    </ContinueButton>
-  )
+  _renderBottomContent = () => {
+    setTimeout(this._navigateNext, 2000)
+    return (<SuccessText>{tl.t('transactionSuccess.submitted')}</SuccessText>)
+  }
 
   render () {
     return (

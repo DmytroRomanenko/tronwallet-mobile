@@ -267,19 +267,19 @@ class App extends Component {
   }
 
   _onIds = device => {
-    console.log('Device info: ', device)
+    // console.log('Device info: ', device)
     this.setState({ oneSignalId: device.userId })
   }
 
   _onReceived = notification => {
-    console.log('Notification received: ', notification)
+    // console.log('Notification received: ', notification)
   }
 
   _onOpened = openResult => {
-    console.log('Message: ', openResult.notification.payload.body)
-    console.log('Data: ', openResult.notification.payload.additionalData)
-    console.log('isActive: ', openResult.notification.isAppInFocus)
-    console.log('openResult: ', openResult)
+    // console.log('Message: ', openResult.notification.payload.body)
+    // console.log('Data: ', openResult.notification.payload.additionalData)
+    // console.log('isActive: ', openResult.notification.isAppInFocus)
+    // console.log('openResult: ', openResult)
   }
 
   _resetAccounts = () => this.setState({accounts: [], publicKey: null})
@@ -390,7 +390,9 @@ class App extends Component {
     try {
       await NodesIp.initNodes()
     } catch (error) {
-      console.warn(error)
+      Sentry.captureException(error, {
+        logger: 'App._setNodes'
+      })
     }
   }
 

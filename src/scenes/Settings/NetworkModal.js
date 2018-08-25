@@ -58,7 +58,7 @@ class ChangeNetworkModal extends Component {
         switchTestnet: isTestnet
       })
     } catch (error) {
-      console.warn(error.message)
+      // console.warn(error.message)
       this.setState({
         error: tl.t('settings.network.modal.error.storage')
       })

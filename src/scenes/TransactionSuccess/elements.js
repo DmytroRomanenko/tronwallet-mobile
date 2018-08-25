@@ -17,7 +17,7 @@ export const SuccessText = styled.Text`
   color: white;
   max-width: 180px;
   text-align: center;
-  padding-top: 20px;
+  padding-top: 0px;
 `
 export const ContinueButton = styled.TouchableOpacity`
   position: absolute;

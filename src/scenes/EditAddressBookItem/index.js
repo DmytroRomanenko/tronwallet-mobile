@@ -57,7 +57,7 @@ class EditContact extends Component {
                       })
                       navigation.goBack()
                     } catch (e) {
-                      console.log('There was a problem deleting this contact.')
+                      // console.log('There was a problem deleting this contact.')
                     }
                   }
                 }

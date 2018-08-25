@@ -22,7 +22,7 @@ class WalletBalances extends Component {
       const filteredTokens = await AsyncStorage.getItem(USER_FILTERED_TOKENS)
       if (currentUserTokens !== filteredTokens) this.setState({ currentUserTokens: filteredTokens })
     } catch (error) {
-      console.log(error)
+      // console.log(error)
     }
   }
 

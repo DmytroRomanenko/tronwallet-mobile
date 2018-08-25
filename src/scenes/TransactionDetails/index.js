@@ -518,7 +518,7 @@ class TransactionDetails extends React.Component {
       }
       this.setState({ item: transaction, refreshing: false })
     } catch (e) {
-      console.log('Either the transaction is as of yet unconfirmed or there was a problem with the request.')
+      // console.log('Either the transaction is as of yet unconfirmed or there was a problem with the request.')
       this.setState({refreshing: false})
     }
   }

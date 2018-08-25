@@ -33,7 +33,7 @@ export const CenterBackGroundIllustration = BackgroundIllustration.extend`
 `
 export const SpecialMessage = styled.Text`
   font-family: Rubik-Medium;
-  font-size: 11px;
+  font-size: 14px;
   color: white;
   position: absolute;
   top: 40px;

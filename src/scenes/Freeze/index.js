@@ -100,7 +100,7 @@ class FreezeScene extends Component {
         total: tronPower
       })
     } catch (error) {
-      console.log(error)
+      // console.log(error)
       this.setState({ loading: false })
     }
   }

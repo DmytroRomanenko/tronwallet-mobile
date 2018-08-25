@@ -458,7 +458,7 @@ class VoteScene extends Component {
 
   _throwError = (e, type) => {
     const errorType = type || 'listError'
-    console.log(`${e.name}. ${e.message}`)
+    // console.log(`${e.name}. ${e.message}`)
     this.setState(
       {
         [errorType]: tl.t('votes.error'),

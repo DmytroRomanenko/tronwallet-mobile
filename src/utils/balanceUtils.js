@@ -19,10 +19,10 @@ export const orderBalances = (balances) => {
 // DEPRECATED - DO NOT USE IT, IT'S ON CONTEXT NOW
 export const getPrice = async (currency = 'USD') => {
   try {
-    console.warn("DEPRECATED - DO NOT USE IT, IT'S ON CONTEXT NOW")
+    // console.warn("DEPRECATED - DO NOT USE IT, IT'S ON CONTEXT NOW")
     const { data: { data } } = await axios.get(`${Config.TRX_PRICE_API}/?convert=${currency}`)
     return data.quotes[currency].price
   } catch (err) {
-    console.log(err)
+    // console.log(err)
   }
 }

@@ -116,7 +116,7 @@ class Settings extends Component {
         currentSelectedTokens: selectedTokens
       })
     } catch (error) {
-      console.log(error)
+      // console.log(error)
     }
   }
 
@@ -203,7 +203,7 @@ class Settings extends Component {
       await AsyncStorage.setItem(USER_FILTERED_TOKENS, JSON.stringify(currentSelectedTokens))
       this.setState({ userSelectedTokens: currentSelectedTokens })
     } catch (error) {
-      console.log(error)
+      // console.log(error)
     }
   }
 

@@ -49,7 +49,6 @@ class RequestPayment extends Component {
 
       this.setState({ currencyPrices: newCurrencyPrices })
     } catch (err) {
-      console.warn(err.message)
       Alert.alert(tl.t('warning'), tl.t('buildPayment.error.currency'))
     } finally {
       this.setState({loading: false})
