@@ -22,7 +22,6 @@ export const recoverUserKeypair = async (
   randomlyGenerated = false
 ) => {
   await RNTron.validateMnemonic(mnemonic)
-  await resetSecretData(pin)
   await generateKeypair(pin, oneSignalId, mnemonic, vaultNumber, randomlyGenerated)
   AsyncStorage.setItem(USER_STATUS, 'active')
 }
@@ -77,6 +76,7 @@ const generateKeypair = async (pin, oneSignalId, mnemonic, vaultNumber, randomly
   generatedKeypair.confirmed = !randomlyGenerated
   generatedKeypair.name = 'Main Account'
   generatedKeypair.alias = '@main_account'
+  await resetSecretData(pin)
   const secretsStore = await getSecretsStore(pin)
   await secretsStore.write(() => secretsStore.create('UserSecret', generatedKeypair, true))
   Client.registerDeviceForNotifications(oneSignalId, generatedKeypair.address)

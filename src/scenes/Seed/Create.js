@@ -45,10 +45,13 @@ class Create extends React.Component {
     }
   }
 
+  componentWillUnmount () {
+    clearTimeout(this.mnemonicTimeout)
+  }
   _getNewMnemonic = async () => {
     const { pin, oneSignalId } = this.props.context
     try {
-      await Promise.all([resetWalletData(), resetSecretData(pin)])
+      await resetWalletData()
       await createUserKeyPair(pin, oneSignalId)
       this._getMnemonic()
     } catch (e) {
@@ -63,8 +66,11 @@ class Create extends React.Component {
       const accounts = await getUserSecrets(this.props.context.pin)
       const { mnemonic, address } = accounts[0]
       this.setState({ seed: mnemonic })
-      this.props.context.setPublicKey(address)
-      this.props.context.loadUserData()
+      clearTimeout(this.mnemonicTimeout)
+      this.mnemonicTimeout = setTimeout(() => {
+        this.props.context.setPublicKey(address)
+        this.props.context.loadUserData()
+      }, 500)
     } catch (e) {
       this.setState({
         error: 'Oops, we have a problem. Please restart the application.'

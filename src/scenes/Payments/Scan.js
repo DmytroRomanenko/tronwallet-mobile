@@ -35,6 +35,10 @@ class ScanPayment extends Component {
 
   _checkDescription = description => description.length <= 500
 
+  componentWillUnmount () {
+    clearTimeout(this.scannerTimeout)
+  }
+
   _onRead = event => {
     const { data } = event
     const { navigation } = this.props
@@ -53,7 +57,9 @@ class ScanPayment extends Component {
       if (error.name === 'DataError') Alert.alert(tl.t('warning'), error.message)
       else Alert.alert(tl.t('warning'), tl.t('scanPayment.error.code'))
       this.setState({loading: false})
-      this.scannerTimeout = setTimeout(() => this.scanner.reactivate(), 2000)
+      this.scannerTimeout = setTimeout(() => {
+        if (this.scanner) this.scanner.reactivate()
+      }, 2000)
     }
   }
 
