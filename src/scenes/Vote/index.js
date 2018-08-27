@@ -29,6 +29,7 @@ import { signTransaction } from '../../utils/transactionUtils'
 import getCandidateStore from '../../store/candidates'
 import { withContext } from '../../store/context'
 import getTransactionStore from '../../store/transactions'
+import { logSentry } from '../../utils/sentryUtils'
 
 const LIST_STEP_SIZE = 20
 
@@ -246,6 +247,7 @@ class VoteScene extends Component {
       } catch (error) {
         Alert.alert(tl.t('error.buildingTransaction'))
         this.setState({ loadingList: false })
+        logSentry(error)
         navigation.setParams({ disabled: false })
       }
     }
@@ -265,6 +267,7 @@ class VoteScene extends Component {
       })
     } catch (error) {
       this.setState({ error: tl.t('error.gettingTransaction'), loadingList: false })
+      logSentry(error)
     }
   }
 
@@ -279,6 +282,7 @@ class VoteScene extends Component {
       this.setState({ loading: false }, () => {
         this.props.navigation.navigate('GetVault')
       })
+      logSentry(error)
     }
   }
 
@@ -458,7 +462,6 @@ class VoteScene extends Component {
 
   _throwError = (e, type) => {
     const errorType = type || 'listError'
-    // console.log(`${e.name}. ${e.message}`)
     this.setState(
       {
         [errorType]: tl.t('votes.error'),
@@ -472,6 +475,7 @@ class VoteScene extends Component {
         })
       }
     )
+    logSentry(e)
   }
 
   render () {

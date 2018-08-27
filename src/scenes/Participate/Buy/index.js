@@ -35,6 +35,7 @@ import getBalanceStore from '../../../store/balance'
 import { formatNumber } from '../../../utils/numberUtils'
 import Client, { ONE_TRX } from '../../../services/client'
 import { signTransaction } from '../../../utils/transactionUtils'
+import { logSentry } from '../../../utils/sentryUtils'
 
 const buyOptions = {
   1: 1,
@@ -200,6 +201,7 @@ class BuyScene extends Component {
       } else {
         Alert.alert(tl.t('warning'), tl.t('error.default'))
       }
+      logSentry(err)
     } finally {
       this.setState({ loading: false })
     }
@@ -218,7 +220,8 @@ class BuyScene extends Component {
           tokenAmount: this.state.amountToBuy
         })
       })
-    } catch (error) {
+    } catch (e) {
+      logSentry(e)
       Alert.alert(tl.t('error.gettingTransaction'))
     }
   }

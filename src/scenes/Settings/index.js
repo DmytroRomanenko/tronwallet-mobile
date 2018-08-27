@@ -40,6 +40,7 @@ import { hardResetWalletData } from '../../utils/userAccountUtils'
 import { getUserSecrets } from '../../utils/secretsUtils'
 import Client from '../../services/client'
 import Loading from '../../components/LoadingScene'
+import { logSentry } from '../../utils/sentryUtils'
 
 const Icon = createIconSetFromFontello(fontelloConfig, 'tronwallet')
 
@@ -116,7 +117,7 @@ class Settings extends Component {
         currentSelectedTokens: selectedTokens
       })
     } catch (error) {
-      // console.log(error)
+      logSentry(error)
     }
   }
 
@@ -193,6 +194,7 @@ class Settings extends Component {
         )
       } catch (e) {
         this.refs.settingsToast.show(tl.t('settings.language.error'))
+        logSentry(e)
       }
     }
   }
@@ -203,7 +205,7 @@ class Settings extends Component {
       await AsyncStorage.setItem(USER_FILTERED_TOKENS, JSON.stringify(currentSelectedTokens))
       this.setState({ userSelectedTokens: currentSelectedTokens })
     } catch (error) {
-      // console.log(error)
+      logSentry(error)
     }
   }
 

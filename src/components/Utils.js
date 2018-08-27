@@ -520,3 +520,11 @@ export const RegularText = styled.Text`
 export const SmallRegText = RegularText.extend`
   font-size: 12px;
 `
+export const VersionText = styled.Text`
+  font-family: Rubik-Regular;
+  font-size: 14px;
+  letter-spacing: 0.6;
+  color: ${Colors.secondaryText};
+  padding: 20px;
+  align-self: center;
+`

@@ -12,6 +12,7 @@ import NavigationHeader from '../../components/Navigation/Header'
 // Services
 import NodesIp from '../../utils/nodeIp'
 import { resetWalletData, resetListsData } from '../../utils/userAccountUtils'
+import { logSentry } from '../../utils/sentryUtils'
 
 class ChangeNetworkModal extends Component {
   static navigationOptions = ({ navigation }) => {
@@ -58,10 +59,10 @@ class ChangeNetworkModal extends Component {
         switchTestnet: isTestnet
       })
     } catch (error) {
-      // console.warn(error.message)
       this.setState({
         error: tl.t('settings.network.modal.error.storage')
       })
+      logSentry(error)
     }
   }
 
@@ -99,6 +100,7 @@ class ChangeNetworkModal extends Component {
         loading: false,
         error: tl.t('settings.network.modal.error.update')
       })
+      logSentry(error)
     }
   }
 
@@ -116,6 +118,7 @@ class ChangeNetworkModal extends Component {
         loading: false,
         error: tl.t('settings.network.modal.error.update')
       })
+      logSentry(error)
     }
   }
 
@@ -130,6 +133,7 @@ class ChangeNetworkModal extends Component {
         loading: false,
         error: tl.t('settings.network.modal.error.reset')
       })
+      logSentry(error)
     }
   }
 

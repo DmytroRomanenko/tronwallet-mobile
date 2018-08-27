@@ -10,6 +10,7 @@ import * as Utils from '../../components/Utils'
 import { orderAssets } from '../../utils/assetsUtils'
 import { AsyncStorage } from '../../../node_modules/aws-amplify/lib/Common'
 import { USER_FILTERED_TOKENS } from '../../utils/constants'
+import { logSentry } from '../../utils/sentryUtils'
 
 class WalletBalances extends Component {
   state = {
@@ -21,8 +22,8 @@ class WalletBalances extends Component {
       const { currentUserTokens } = this.state
       const filteredTokens = await AsyncStorage.getItem(USER_FILTERED_TOKENS)
       if (currentUserTokens !== filteredTokens) this.setState({ currentUserTokens: filteredTokens })
-    } catch (error) {
-      // console.log(error)
+    } catch (e) {
+      logSentry(e)
     }
   }
 

@@ -5,13 +5,16 @@ import * as Utils from './Utils'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import PropTypes from 'prop-types'
 
+import { logSentry } from '../utils/sentryUtils'
+
 const CopyInput = ({ onCopyText, value }) => {
   const paste = async () => {
     try {
       await Clipboard.setString(value)
       onCopyText(true)
-    } catch (error) {
+    } catch (e) {
       onCopyText(false)
+      logSentry(e)
     }
   }
   return (

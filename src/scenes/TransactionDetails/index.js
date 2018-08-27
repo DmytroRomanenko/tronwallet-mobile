@@ -31,6 +31,7 @@ import ActionModal from '../../components/ActionModal'
 
 import { formatFloat } from '../../utils/numberUtils'
 import getAssetsStore from '../../store/assets'
+import { logSentry } from '../../utils/sentryUtils'
 
 class TransactionDetails extends React.Component {
   static navigationOptions = ({ navigation }) => {
@@ -99,6 +100,7 @@ class TransactionDetails extends React.Component {
       this.refs.hashToast.show(tl.t('transactionDetails.clipboard.tronscanUrl'))
     } catch (error) {
       this.refs.hashToast.show(tl.t('error.clipboardCopied'))
+      logSentry(error)
     }
   }
 
@@ -337,6 +339,7 @@ class TransactionDetails extends React.Component {
       this._showToast(tl.t('transactionDetails.clipboard.publicKey'))
     } catch (error) {
       this._showToast(tl.t('error.clipboardCopied'))
+      logSentry(error)
     } finally {
       this._closeModal()
     }
@@ -518,8 +521,8 @@ class TransactionDetails extends React.Component {
       }
       this.setState({ item: transaction, refreshing: false })
     } catch (e) {
-      // console.log('Either the transaction is as of yet unconfirmed or there was a problem with the request.')
       this.setState({refreshing: false})
+      logSentry(e)
     }
   }
 

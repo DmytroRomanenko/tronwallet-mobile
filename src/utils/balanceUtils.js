@@ -1,5 +1,6 @@
 import Config from 'react-native-config'
 import axios from 'axios'
+import { logSentry } from '../utils/sentryUtils'
 
 export const orderBalances = (balances) => {
   let orderedBalances = []
@@ -23,6 +24,6 @@ export const getPrice = async (currency = 'USD') => {
     const { data: { data } } = await axios.get(`${Config.TRX_PRICE_API}/?convert=${currency}`)
     return data.quotes[currency].price
   } catch (err) {
-    // console.log(err)
+    logSentry(err)
   }
 }

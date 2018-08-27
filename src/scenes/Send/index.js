@@ -32,6 +32,7 @@ import { formatNumber } from '../../utils/numberUtils'
 import getBalanceStore from '../../store/balance'
 import { withContext } from '../../store/context'
 import { USER_FILTERED_TOKENS } from '../../utils/constants'
+import { logSentry } from '../../utils/sentryUtils'
 
 import { ButtonWrapper } from './elements'
 
@@ -199,6 +200,7 @@ class SendScene extends Component {
       this.setState({
         loadingSign: false
       })
+      logSentry(error)
     }
   }
 
@@ -217,6 +219,7 @@ class SendScene extends Component {
     } catch (error) {
       Alert.alert(tl.t('warning'), tl.t('error.default'))
       this.setState({ loadingSign: false })
+      logSentry(error)
     }
   }
 

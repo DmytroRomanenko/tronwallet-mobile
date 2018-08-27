@@ -5,6 +5,7 @@ import tl from '../utils/i18n'
 import { TronVaultURL } from './deeplinkUtils'
 import getTransactionStore from '../store/transactions'
 import Client, { ONE_TRX } from '../services/client'
+import { logSentry } from '../utils/sentryUtils'
 
 export const signTransaction = async (privateKey, transactionUnsigned) => {
   try {
@@ -14,7 +15,7 @@ export const signTransaction = async (privateKey, transactionUnsigned) => {
     )
     return transactionSigned
   } catch (error) {
-    throw new Error(error)
+    logSentry(error)
   }
 }
 

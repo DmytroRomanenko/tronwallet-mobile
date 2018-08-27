@@ -21,6 +21,7 @@ import withContext from '../../utils/hocs/withContext'
 import { formatNumber } from '../../utils/numberUtils'
 import getTransactionStore from '../../store/transactions'
 import tl from '../../utils/i18n'
+import { logSentry } from '../../utils/sentryUtils'
 
 const NOTIFICATION_TRANSACTIONS = ['Transfer', 'Transfer Asset']
 
@@ -88,6 +89,7 @@ class MakePayment extends PureComponent {
         if (error.name === 'DataError') Alert.alert(tl.t('warning'), error.message)
         else Alert.alert(tl.t('warning'), tl.t('makePayment.error.receiver'))
         this.setState({loading: false})
+        logSentry(error)
       }
     }
 
@@ -108,6 +110,7 @@ class MakePayment extends PureComponent {
       } catch (error) {
         Alert.alert(tl.t('warning'), tl.t('error.default'))
         this.setState({ loading: false })
+        logSentry(error)
       }
     }
 
@@ -145,6 +148,7 @@ class MakePayment extends PureComponent {
           store.delete(lastTransaction)
         })
         this.setState({loading: false})
+        logSentry(error)
       }
     }
 

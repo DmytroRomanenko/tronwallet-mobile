@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react'
 import { TouchableOpacity, Clipboard } from 'react-native'
 
 import tl from '../../utils/i18n'
+import { logSentry } from '../../utils/sentryUtils'
 
 class Copiable extends PureComponent {
   state = {
@@ -20,6 +21,7 @@ class Copiable extends PureComponent {
       showToast(tl.t('transactionDetails.clipboard.publicKey'))
     } catch (error) {
       showToast(tl.t('error.clipboardCopied'))
+      logSentry(error)
     }
   }
 

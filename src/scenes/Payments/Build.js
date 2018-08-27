@@ -15,6 +15,7 @@ import { SelecterWrapper, SelecterOption } from './elements'
 import tl from '../../utils/i18n'
 import { withContext } from '../../store/context'
 import { formatNumber } from '../../utils/numberUtils'
+import { logSentry } from '../../utils/sentryUtils'
 
 const CURRENCY_OPTIONS = ['USD', 'EUR', 'TRX']
 
@@ -50,6 +51,7 @@ class RequestPayment extends Component {
       this.setState({ currencyPrices: newCurrencyPrices })
     } catch (err) {
       Alert.alert(tl.t('warning'), tl.t('buildPayment.error.currency'))
+      logSentry(err)
     } finally {
       this.setState({loading: false})
     }

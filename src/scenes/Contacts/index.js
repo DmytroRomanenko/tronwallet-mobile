@@ -5,6 +5,7 @@ import FloatingButton from '../../components/FloatingButton'
 
 import { getContactsFromStore } from '../../utils/contactUtils'
 import tl from '../../utils/i18n'
+import { logSentry } from '../../utils/sentryUtils'
 
 export default class Contacts extends Component {
   state = {
@@ -38,6 +39,7 @@ export default class Contacts extends Component {
       this.setState({
         error: tl.t('addressBook.contacts.loadError')
       })
+      logSentry(e)
     }
   }
 

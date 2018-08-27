@@ -19,6 +19,7 @@ import { signTransaction } from '../../utils/transactionUtils'
 import getTransactionStore from '../../store/transactions'
 import { withContext } from '../../store/context'
 import { formatNumber } from '../../utils/numberUtils'
+import { logSentry } from '../../utils/sentryUtils'
 
 class FreezeScene extends Component {
   static navigationOptions = {
@@ -84,7 +85,8 @@ class FreezeScene extends Component {
       } else {
         return unfreezeStatus
       }
-    } catch (error) {
+    } catch (e) {
+      logSentry(e)
       return unfreezeStatus
     }
   }
@@ -99,8 +101,8 @@ class FreezeScene extends Component {
         unfreezeStatus,
         total: tronPower
       })
-    } catch (error) {
-      // console.log(error)
+    } catch (e) {
+      logSentry(e)
       this.setState({ loading: false })
     }
   }
@@ -111,9 +113,10 @@ class FreezeScene extends Component {
     try {
       const data = await Client.getUnfreezeTransaction(publicKey, this.props.context.pin)
       this._openTransactionDetails(data)
-    } catch (error) {
+    } catch (e) {
       Alert.alert(tl.t('error.buildingTransaction'))
       this.setState({ loadingSign: false })
+      logSentry(e)
     } finally {
       this.setState({loading: false})
     }
@@ -131,9 +134,10 @@ class FreezeScene extends Component {
       if (balance < convertedAmount) { throw new Error(tl.t('freeze.error.insufficientAmount')) }
       if (!Number.isInteger(convertedAmount)) { throw new Error(tl.t('freeze.error.roundNumbers')) }
       await this._freezeToken()
-    } catch (error) {
+    } catch (e) {
       this.setState({ loading: false })
-      Alert.alert(tl.t('warning'), error.message)
+      Alert.alert(tl.t('warning'), e.message)
+      logSentry(e)
     }
   }
 
@@ -144,8 +148,9 @@ class FreezeScene extends Component {
     try {
       const data = await Client.getFreezeTransaction(this.props.context.publicKey, convertedAmount)
       this._openTransactionDetails(data)
-    } catch (error) {
+    } catch (e) {
       Alert.alert(Alert.alert(tl.t('error.buildingTransaction')))
+      logSentry(e)
     } finally {
       this.setState({ loading: false })
     }
@@ -163,9 +168,10 @@ class FreezeScene extends Component {
           tx: transactionSigned
         })
       })
-    } catch (error) {
+    } catch (e) {
       Alert.alert(tl.t('error.gettingTransaction'))
       this.setState({ loadingSign: false })
+      logSentry(e)
     }
   }
 

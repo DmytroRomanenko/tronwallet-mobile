@@ -20,6 +20,7 @@ import tl from '../../utils/i18n'
 import buildTransactionDetails, { translateError } from './detailMap'
 import getTransactionStore from '../../store/transactions'
 import { withContext } from '../../store/context'
+import { logSentry } from '../../utils/sentryUtils'
 
 const ANSWERS_TRANSACTIONS = ['Transfer', 'Vote', 'Participate', 'Freeze']
 const NOTIFICATION_TRANSACTIONS = ['Transfer', 'Transfer Asset']
@@ -65,6 +66,7 @@ class TransactionDetail extends Component {
       this.setState({ transactionData, signedTransaction, tokenAmount })
     } catch (error) {
       this.setState({ submitError: error.message })
+      logSentry(error)
     } finally {
       this.setState({ loadingData: false })
     }
@@ -149,6 +151,7 @@ class TransactionDetail extends Component {
         loadingSubmit: false,
         submitted: true
       })
+      logSentry(error)
       store.write(() => {
         const lastTransaction = store.objectForPrimaryKey('Transaction', hash)
         store.delete(lastTransaction)

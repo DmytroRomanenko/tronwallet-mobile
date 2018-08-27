@@ -11,11 +11,10 @@ import NavigationHeader from '../../components/Navigation/Header'
 import Loading from '../../components/LoadingScene'
 
 // Design
-import { Container, Content, Row, HorizontalSpacer, VerticalSpacer } from '../../components/Utils'
+import { Container, Content, Row, HorizontalSpacer, VerticalSpacer, VersionText } from '../../components/Utils'
 import { Colors } from '../../components/DesignSystem'
 import {
   Description,
-  VersionText,
   SectionTitle,
   Getty,
   PayPartner,

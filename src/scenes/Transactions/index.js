@@ -13,6 +13,7 @@ import getAssetsStore from '../../store/assets'
 import getTransactionStore from '../../store/transactions'
 import { withContext } from '../../store/context'
 import { updateTransactions, getTokenPriceFromStore } from '../../utils/transactionUtils'
+import { logSentry } from '../../utils/sentryUtils'
 
 import Empty from './Empty'
 
@@ -88,8 +89,8 @@ class TransactionsScene extends Component {
 
       this.setState({ transactions: updatedTransactions })
     } catch (err) {
-      console.error(err)
       this._setRefreshState(false)
+      logSentry(err)
     }
   }
 

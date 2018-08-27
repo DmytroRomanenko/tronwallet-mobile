@@ -10,6 +10,7 @@ import SecretStore from '../../store/secrets'
 import { withContext } from '../../store/context'
 import { USER_STATUS, USER_FILTERED_TOKENS } from '../../utils/constants'
 import LottieView from 'lottie-react-native'
+import { logSentry } from '../../utils/sentryUtils'
 
 class LoadingScene extends Component {
   componentDidMount () {
@@ -39,7 +40,8 @@ class LoadingScene extends Component {
     try {
       await SecretStore(pin)
       return true
-    } catch (err) {
+    } catch (e) {
+      logSentry(e)
       return false
     }
   }

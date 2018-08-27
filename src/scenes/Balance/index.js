@@ -21,6 +21,7 @@ import { USER_PREFERRED_CURRENCY } from '../../utils/constants'
 import { createNewAccount } from '../../utils/secretsUtils'
 import { updateAssets } from '../../utils/assetsUtils'
 import withContext from '../../utils/hocs/withContext'
+import { logSentry } from '../../utils/sentryUtils'
 
 class BalanceScene extends Component {
   static navigationOptions = {
@@ -41,6 +42,7 @@ class BalanceScene extends Component {
       this._loadData()
     } catch (e) {
       this.setState({ error: tl.t('balance.error.loadingData') })
+      logSentry(e)
     }
 
     this._navListener =
@@ -80,7 +82,7 @@ class BalanceScene extends Component {
       this.props.context.setCurrency(currency)
     } catch (e) {
       this.setState({ error: e.message })
-      throw e
+      logSentry(e)
     }
   }
 

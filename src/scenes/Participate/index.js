@@ -23,6 +23,7 @@ import { orderAssets, updateAssets } from '../../utils/assetsUtils'
 import { ONE_TRX } from '../../services/client'
 import guarantee from '../../assets/guarantee.png'
 import NavigationHeader from '../../components/Navigation/Header'
+import { logSentry } from '../../utils/sentryUtils'
 
 import {
   Container,
@@ -106,8 +107,9 @@ class ParticipateHome extends React.Component {
     try {
       const assets = await this._updateAssets(0)
       this.setState({ assetList: assets, currentList: assets })
-    } catch (error) {
-      this.setState({ error: error.message })
+    } catch (e) {
+      this.setState({ error: e.message })
+      logSentry(e)
     } finally {
       this.props.navigation.setParams({ loading: false })
     }
@@ -128,6 +130,7 @@ class ParticipateHome extends React.Component {
       this.setState({ start: newStart, assetList: updatedAssets, currentList: updatedAssets })
     } catch (error) {
       this.setState({ error: error.message })
+      logSentry(error)
     } finally {
       this.props.navigation.setParams({ loading: false })
     }
@@ -181,6 +184,7 @@ class ParticipateHome extends React.Component {
       }
     } catch (error) {
       this.setState({ error: error.message })
+      logSentry(error)
     }
   }
 

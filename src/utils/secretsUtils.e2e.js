@@ -5,6 +5,7 @@ import { AsyncStorage } from 'react-native'
 import getSecretsStore from '../store/secrets'
 import { resetWalletData } from './userAccountUtils'
 import Client from '../services/client'
+import { logSentry } from '../utils/sentryUtils'
 
 export const createUserKeyPair = async (pin, oneSignalId) => {
   const accounts = await getUserSecrets(pin)
@@ -46,7 +47,7 @@ export const confirmSecret = async pin => {
       secretsStore.create('UserSecret', { id: deviceId, confirmed: true }, true)
     })
   } catch (error) {
-    throw error
+    logSentry(error)
   }
 }
 const emptySecret = {
@@ -65,6 +66,6 @@ export const getUserSecrets = async pin => {
     if (secretsObject.length) return secretsObject
     return emptySecret
   } catch (error) {
-    throw error
+    logSentry(error)
   }
 }

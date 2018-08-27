@@ -15,6 +15,7 @@ import { ActionButton } from './elements'
 import * as Utils from '../../components/Utils'
 import tl from '../../utils/i18n'
 import { withContext } from '../../store/context'
+import { logSentry } from '../../utils/sentryUtils'
 
 class ReceiveScreen extends PureComponent {
   static navigationOptions = {
@@ -40,6 +41,7 @@ class ReceiveScreen extends PureComponent {
       this.refs.toast.show(tl.t('receive.clipboardCopied'))
     } catch (error) {
       this.refs.toast.show(tl.t('error.clipboardCopied'))
+      logSentry(error)
     }
   }
 

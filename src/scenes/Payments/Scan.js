@@ -14,6 +14,7 @@ import { isAddressValid } from '../../services/address'
 import withContext from '../../utils/hocs/withContext'
 import { Colors } from '../../components/DesignSystem'
 import tl from '../../utils/i18n'
+import { logSentry } from '../../utils/sentryUtils'
 
 class DataError extends Error {
   constructor (message) {
@@ -50,13 +51,13 @@ class ScanPayment extends Component {
       if (!token) throw new DataError(tl.t('scanPayment.error.token'))
       if (!this._checkAmount(amount)) throw new DataError(tl.t('scanPayment.error.amount'))
       if (description && !this._checkDescription(description)) throw new DataError(tl.t('scanPayment.error.description'))
-
       this.setState({loading: false})
       navigation.navigate('MakePayScene', {payment: {address, amount, token, description}})
     } catch (error) {
       if (error.name === 'DataError') Alert.alert(tl.t('warning'), error.message)
       else Alert.alert(tl.t('warning'), tl.t('scanPayment.error.code'))
       this.setState({loading: false})
+      logSentry(error)
       this.scannerTimeout = setTimeout(() => {
         if (this.scanner) this.scanner.reactivate()
       }, 2000)

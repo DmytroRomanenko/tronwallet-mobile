@@ -17,6 +17,7 @@ import { getUserSecrets } from '../../../utils/secretsUtils'
 import { withContext } from '../../../store/context'
 import getSecretsStore from '../../../store/secrets'
 import tl from '../../../utils/i18n'
+import { logSentry } from '../../../utils/sentryUtils'
 
 class ContactsForm extends Component {
   static propTypes = {
@@ -73,6 +74,7 @@ class ContactsForm extends Component {
           this.setState({
             generalError: tl.t('addressBook.form.generalError')
           })
+          logSentry(e)
         }
       } else {
         const store = await getContactStore()
@@ -83,6 +85,7 @@ class ContactsForm extends Component {
           this.setState({
             generalError: tl.t('addressBook.form.generalError')
           })
+          logSentry(e)
         }
       }
       if (reloadData) reloadData()
