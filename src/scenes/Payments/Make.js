@@ -21,17 +21,9 @@ import withContext from '../../utils/hocs/withContext'
 import { formatNumber } from '../../utils/numberUtils'
 import getTransactionStore from '../../store/transactions'
 import tl from '../../utils/i18n'
-import { logSentry } from '../../utils/sentryUtils'
+import { logSentry, DataError } from '../../utils/sentryUtils'
 
 const NOTIFICATION_TRANSACTIONS = ['Transfer', 'Transfer Asset']
-
-class DataError extends Error {
-  constructor (message) {
-    super(message)
-    this.name = 'DataError'
-    this.message = message
-  }
-}
 
 class MakePayment extends PureComponent {
     static navigationOptions = { header: null }
@@ -86,10 +78,13 @@ class MakePayment extends PureComponent {
           onSuccess: () => this._buildTransaction({from, to: address, amount, token, data: description})
         })
       } catch (error) {
-        if (error.name === 'DataError') Alert.alert(tl.t('warning'), error.message)
-        else Alert.alert(tl.t('warning'), tl.t('makePayment.error.receiver'))
+        if (error.name === 'DataError') {
+          Alert.alert(tl.t('warning'), error.message)
+        } else {
+          Alert.alert(tl.t('warning'), tl.t('makePayment.error.receiver'))
+          logSentry(error)
+        }
         this.setState({loading: false})
-        logSentry(error)
       }
     }
 
@@ -106,7 +101,8 @@ class MakePayment extends PureComponent {
         // Get Transaction Signed Data
         const transactionData = await WalletClient.getTransactionDetails(transactionSigned)
         // Proceed to broadcast
-        this._submitTransaction(transactionData, transactionSigned)
+        if (transactionData) this._submitTransaction(transactionData, transactionSigned)
+        else throw new Error('Empty Transaction Data')
       } catch (error) {
         Alert.alert(tl.t('warning'), tl.t('error.default'))
         this.setState({ loading: false })
@@ -131,7 +127,9 @@ class MakePayment extends PureComponent {
                 'en': tl.t('submitTransaction.notificationPayment', { address: transaction.contractData.transferFromAddress })
               }
               response.data.users.map(device => {
-                OneSignal.postNotification(content, transaction, device.deviceid)
+                // We use @ to identify the multiple accounts
+                const deviceId = device.deviceid.split('@')[0] || device.deviceid
+                OneSignal.postNotification(content, transaction, deviceId)
               })
             }
           }

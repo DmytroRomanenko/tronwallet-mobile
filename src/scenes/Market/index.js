@@ -55,7 +55,7 @@ class MarketScene extends Component {
     graph: {
       loading: true,
       data: null,
-      timeSpan: tl.t('market.time.hour')
+      timeSpan: '1H'
     },
     high: null,
     low: null,
@@ -76,7 +76,13 @@ class MarketScene extends Component {
   }
 
   get timeSpans () {
-    return [tl.t('market.time.hour'), tl.t('market.time.day'), tl.t('market.time.week'), tl.t('market.time.month'), tl.t('market.time.all')]
+    return [
+      { value: tl.t('market.time.hour'), key: '1H' },
+      { value: tl.t('market.time.day'), key: '1D' },
+      { value: tl.t('market.time.week'), key: '1W' },
+      { value: tl.t('market.time.month'), key: '1M' },
+      { value: tl.t('market.time.all'), key: 'ALL' }
+    ]
   }
 
   _loadData = async () => {
@@ -254,11 +260,11 @@ class MarketScene extends Component {
           <Utils.Row justify='space-evenly'>
             {this.timeSpans.map(timeSpan => (
               <TouchableOpacity
-                key={timeSpan}
-                onPress={() => this._changeGraphTimeSpan(timeSpan)}
+                key={timeSpan.key}
+                onPress={() => this._changeGraphTimeSpan(timeSpan.key)}
               >
-                <Utils.Text secondary={graph.timeSpan !== timeSpan}>
-                  {timeSpan}
+                <Utils.Text secondary={graph.timeSpan !== timeSpan.key}>
+                  {timeSpan.value}
                 </Utils.Text>
               </TouchableOpacity>
             ))}

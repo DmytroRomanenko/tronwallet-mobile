@@ -14,7 +14,7 @@ import FadeIn from '../../components/Animations/FadeIn'
 import WalletClient from '../../services/client'
 import { confirmSecret, getUserSecrets } from '../../utils/secretsUtils'
 import { withContext } from '../../store/context'
-import { logSentry } from '../../utils/sentryUtils'
+import { logSentry, DataError } from '../../utils/sentryUtils'
 
 const WordWrapper = styled.TouchableOpacity`
   padding-vertical: ${Spacing.small};
@@ -32,28 +32,24 @@ class Confirm extends React.Component {
     header: (
       <NavigationHeader
         title={tl.t('seed.confirm.title')}
-        onBack={() => navigation.goBack()}
+        onBack={() =>
+          navigation.getParam('shouldReset', false)
+            ? navigation.dispatch(resetAction)
+            : navigation.goBack()}
       />
     )
   })
 
-  state = {
-    seed: null,
-    remainingWords: null,
-    selected: [],
-    loading: false
-  }
-
-  static getDerivedStateFromProps (nextProps) {
-    const initialWords = nextProps.navigation
-      .getParam('seed', [])
-      .slice()
-      .sort(() => 0.5 - Math.random())
-
-    return {
-      seed: nextProps.navigation.getParam('seed', []).join(' '),
-      initialWords,
-      remainingWords: [...initialWords]
+  constructor (props) {
+    super()
+    const seed = props.navigation.getParam('seed', [])
+    const initialRandom = seed.slice().sort(() => 0.5 - Math.random())
+    this.state = {
+      seed,
+      selected: [],
+      loading: false,
+      initialWords: initialRandom,
+      remainingWords: initialRandom
     }
   }
 
@@ -61,16 +57,18 @@ class Confirm extends React.Component {
     const { context } = this.props
     this.setState({ loading: true })
     try {
+      const originalWords = this.state.seed.join(' ')
       const selectedWords = this.state.selected.join(' ')
-      if (this.state.seed !== selectedWords) throw new Error('Words dont match!')
+      if (originalWords !== selectedWords) throw new DataError('Words dont match!')
       await confirmSecret(context.pin)
       Answers.logCustom('Wallet Operation', { type: 'Create' })
       await this._handleSuccess()
     } catch (error) {
-      // console.warn(error)
       Alert.alert(tl.t('seed.confirm.error.title'), tl.t('seed.confirm.error.message'))
+      if (error.name !== 'DataError') {
+        logSentry(error)
+      }
       this.setState({ loading: false })
-      logSentry(error)
     }
   }
 
@@ -91,13 +89,16 @@ class Confirm extends React.Component {
         navigation.navigate('Rewards', rewardsParams)
       } else {
         Answers.logCustom('Wallet Operation', { type: 'Gift', message: 'User gifted or not registered' })
-        throw new Error('User gifted or not registered')
+        throw new DataError('User gifted or not registered')
       }
     } catch (error) {
       Answers.logCustom('Wallet Operation', { type: 'Gift', message: error.message })
+      if (error.name !== 'DataError') {
+        logSentry(error)
+      }
+
       Alert.alert(tl.t('success'), tl.t('seed.confirm.success'))
       this.setState({ loading: false })
-      logSentry(error)
       navigation.dispatch(resetAction)
     } finally {
       context.loadUserData()

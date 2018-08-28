@@ -55,6 +55,8 @@ const getErrorDic = (errorMessage) => {
       return tl.t('submitTransaction.errorDic.expiration')
     case 'SERVER_BUSY':
       return tl.t('submitTransaction.errorDic.serverBusy')
+    case 'AccountResourceInsufficient error':
+      return tl.t('submitTransaction.errorDic.resource')
     default:
       return errorMessage
   }

@@ -25,7 +25,7 @@ const BalanceWarning = ({ children, navigation, seed, context }) => (
       navigation.navigate('Pin', {
         shouldGoBack: true,
         testInput: pin => pin === context.pin,
-        onSuccess: () => navigation.navigate('SeedCreate', { seed, shouldReset: true })
+        onSuccess: () => navigation.navigate('SeedSave', { seed })
       })
     }}>
       <Warning>

@@ -28,7 +28,8 @@ const general = {
   close: 'Close',
   ends: 'Ends',
   clear: 'Clear',
-  allIn: 'All In'
+  allIn: 'All In',
+  skip: 'Skip'
 }
 
 const balance = {
@@ -226,7 +227,8 @@ const seed = {
     }
   },
   create: {
-    title: 'CONFIRM WALLET SEED',
+    title: 'CREATE SEED',
+    titleConfirm: 'CONFIRM WALLET SEED',
     error: 'Oops, we have a problem. Please restart the application.',
     generateNew: 'This will generate a completely new wallet.',
     button: {
@@ -387,7 +389,8 @@ const submitTransaction = {
     contractValidateTapos: 'Transaction data not valid (TAPOS). Please try again later.',
     tooBig: 'Transaction too big to be submitted.',
     expiration: 'Transaction expired. Please try again.',
-    serverBusy: 'Server busy.'
+    serverBusy: 'Server busy.',
+    resource: 'Insufficient bandwidth or balance. You might need some frozen TRX.'
   },
   totalVotes: 'Total Votes'
 }

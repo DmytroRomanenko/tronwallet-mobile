@@ -112,6 +112,8 @@ class AccountsCarousel extends React.Component {
           ref={ref => { this.carousel = ref }}
           layout='default'
           onSnapToItem={this._onSnapToItem}
+          enableMomentum
+          decelerationRate={0.9}
           data={accounts}
           renderItem={this._renderItem}
           sliderWidth={Dimensions.get('window').width}

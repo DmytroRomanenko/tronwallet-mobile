@@ -35,7 +35,7 @@ import getBalanceStore from '../../../store/balance'
 import { formatNumber } from '../../../utils/numberUtils'
 import Client, { ONE_TRX } from '../../../services/client'
 import { signTransaction } from '../../../utils/transactionUtils'
-import { logSentry } from '../../../utils/sentryUtils'
+import { logSentry, DataError } from '../../../utils/sentryUtils'
 
 const buyOptions = {
   1: 1,
@@ -175,12 +175,8 @@ class BuyScene extends Component {
 
     try {
       this.setState({ loading: true })
-      if (trxBalance < amountToPay) {
-        throw new Error('INSUFFICIENT_BALANCE')
-      }
-      if (amountToPay < 1) {
-        throw new Error('INSUFFICIENT_TRX')
-      }
+      if (trxBalance < amountToPay) throw new DataError('INSUFFICIENT_BALANCE')
+      if (amountToPay < 1) throw new DataError('INSUFFICIENT_TRX')
 
       const participatePayload = {
         participateAddress: item.ownerAddress,
@@ -191,17 +187,18 @@ class BuyScene extends Component {
       const data = await Client.getParticipateTransaction(this.props.context.publicKey, participatePayload)
       await this._openTransactionDetails(data)
     } catch (err) {
-      if (err.message === 'INSUFFICIENT_BALANCE') {
-        Alert.alert(tl.t('participate.error.insufficientBalance'))
-      } else if (err.message === 'INSUFFICIENT_TRX') {
-        Alert.alert(
-          tl.t('participate.error.insufficientTrx.title', { token: item.name }),
-          tl.t('participate.error.insufficientTrx.message', { amount: this._fixNumber(amountToPay) })
-        )
+      if (err.name === 'DataError') {
+        if (err.message === 'INSUFFICIENT_BALANCE') Alert.alert(tl.t('participate.error.insufficientBalance'))
+        if (err.message === 'INSUFFICIENT_TRX') {
+          Alert.alert(
+            tl.t('participate.error.insufficientTrx.title', { token: item.name }),
+            tl.t('participate.error.insufficientTrx.message', { amount: this._fixNumber(amountToPay) })
+          )
+        }
       } else {
+        logSentry(err)
         Alert.alert(tl.t('warning'), tl.t('error.default'))
       }
-      logSentry(err)
     } finally {
       this.setState({ loading: false })
     }

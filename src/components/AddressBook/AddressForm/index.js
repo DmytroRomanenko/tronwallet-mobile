@@ -1,13 +1,14 @@
 import React, { Component } from 'react'
-import { Keyboard, TouchableWithoutFeedback, Clipboard } from 'react-native'
+import { Keyboard, TouchableWithoutFeedback, Clipboard, Modal } from 'react-native'
 import PropTypes from 'prop-types'
 
 import { FormGroup, CancelWrapper, ErrorText } from './elements'
 import IconButton from '../../../components/IconButton'
-import { VerticalSpacer, Container, Content } from '../../../components/Utils'
+import { VerticalSpacer, HorizontalSpacer, Container, Content } from '../../../components/Utils'
 import Input from '../../../components/Input'
 import ButtonGradient from '../../../components/ButtonGradient'
 import CancelButton from '../../../components/CancelButton'
+import QRScanner from '../../../components/QRScanner'
 
 import { isAddressValid } from '../../../services/address'
 import { ADD, EDIT } from '../../../utils/constants'
@@ -37,7 +38,8 @@ class ContactsForm extends Component {
     initialAddress: this.props.address,
     nameError: null,
     addressError: null,
-    generalError: null
+    generalError: null,
+    qrModalVisible: false
   }
 
   _nextInput = input => {
@@ -181,10 +183,27 @@ class ContactsForm extends Component {
     }
   }
 
-  _rightContentTo = () => this.props.type === ADD ? <IconButton onPress={this._onPaste} icon='md-clipboard' /> : null
+  _openModal = () => this.setState({ qrModalVisible: true })
+
+  _closeModal = () => this.setState({ qrModalVisible: false })
+
+  _readPublicKey = e => {
+    this.address.focus()
+    this.setState({ address: e.data }, () => {
+      this._closeModal()
+    })
+  }
+
+  _rightContentTo = () => (
+    this.props.type === ADD && <React.Fragment>
+      <IconButton onPress={this._onPaste} icon='md-clipboard' />
+      <HorizontalSpacer />
+      <IconButton onPress={this._openModal} icon='ios-qr-scanner' />
+    </React.Fragment>
+  )
 
   render () {
-    const { name, address, nameError, generalError, addressError } = this.state
+    const { name, address, nameError, generalError, addressError, qrModalVisible } = this.state
     const { type } = this.props
 
     return (
@@ -246,6 +265,18 @@ class ContactsForm extends Component {
             </FormGroup>
           </TouchableWithoutFeedback>
         </Content>
+        <Modal
+          visible={qrModalVisible}
+          onRequestClose={this._closeModal}
+          animationType='slide'
+        >
+          <QRScanner
+            reactivateTimeout={1500}
+            onRead={this._readPublicKey}
+            onClose={this._closeModal}
+            checkAndroid6Permissions
+          />
+        </Modal>
       </Container>
     )
   }

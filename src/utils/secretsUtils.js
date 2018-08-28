@@ -8,8 +8,8 @@ import { updateTransactions } from '../utils/transactionUtils'
 import { USER_STATUS } from '../utils/constants'
 import tl from '../utils/i18n'
 
-export const createUserKeyPair = async (pin, oneSignalId) => {
-  const mnemonic = await RNTron.generateMnemonic()
+export const createUserKeyPair = async (pin, oneSignalId, mnemonic = null) => {
+  if (!mnemonic) mnemonic = await RNTron.generateMnemonic()
   await generateKeypair(pin, oneSignalId, mnemonic, 0, true)
   AsyncStorage.setItem(USER_STATUS, 'active')
 }

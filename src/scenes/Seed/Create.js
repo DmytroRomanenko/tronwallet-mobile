@@ -1,6 +1,7 @@
 import React from 'react'
-import { ActivityIndicator, Alert } from 'react-native'
+import { ActivityIndicator, Alert, TouchableOpacity } from 'react-native'
 import { StackActions, NavigationActions } from 'react-navigation'
+import RNTron from 'react-native-tron'
 
 import tl from '../../utils/i18n'
 import * as Utils from '../../components/Utils'
@@ -8,8 +9,7 @@ import { Colors } from '../../components/DesignSystem'
 import ButtonGradient from '../../components/ButtonGradient'
 import NavigationHeader from '../../components/Navigation/Header'
 
-import { resetWalletData } from '../../utils/userAccountUtils'
-import { getUserSecrets, createUserKeyPair } from '../../utils/secretsUtils'
+import { createUserKeyPair } from '../../utils/secretsUtils'
 import { withContext } from '../../store/context'
 import { logSentry } from '../../utils/sentryUtils'
 
@@ -20,122 +20,97 @@ const resetAction = StackActions.reset({
 })
 
 class Create extends React.Component {
-  static navigationOptions = ({ navigation }) => ({
-    header: (
-      <NavigationHeader
-        title={tl.t('seed.create.title')}
-        onBack={() => {
-          navigation.getParam('shouldReset', false)
-            ? navigation.dispatch(resetAction)
-            : navigation.goBack()
-        }}
-      />
-    )
-  })
+  static navigationOptions = () => ({ header: null })
 
   state = {
     seed: null,
-    error: null
+    error: null,
+    loading: false
   }
 
-  async componentDidMount () {
-    try {
-      await this._getMnemonic()
-    } catch (err) {
-      Alert.alert(tl.t('seed.create.error'))
-      logSentry(err)
-    }
+  componentDidMount () {
+    this._getMnemonic()
   }
 
-  componentWillUnmount () {
-    clearTimeout(this.mnemonicTimeout)
-  }
-  _getNewMnemonic = async () => {
-    const { pin, oneSignalId } = this.props.context
+  _confirmSeed = async (route) => {
+    const { navigation, context } = this.props
+    const { seed } = this.state
+    const { pin, oneSignalId } = context
+
+    this.setState({loading: true})
     try {
-      await resetWalletData()
-      await createUserKeyPair(pin, oneSignalId)
-      this._getMnemonic()
+      await createUserKeyPair(pin, oneSignalId, seed)
+      await context.loadUserData()
+      if (route === 'app') navigation.dispatch(resetAction)
+      else navigation.navigate('SeedConfirm', { seed: seed.split(' '), shouldReset: true })
     } catch (e) {
-      this.setState({
-        error: 'Oops, we have a problem. Please restart the application.'
-      })
+      Alert.alert(tl.t('seed.create.error'))
       logSentry(e)
+    } finally {
+      this.setState({loading: false})
     }
   }
 
   _getMnemonic = async () => {
     try {
-      const accounts = await getUserSecrets(this.props.context.pin)
-      const { mnemonic, address } = accounts[0]
+      const mnemonic = await RNTron.generateMnemonic()
       this.setState({ seed: mnemonic })
-      clearTimeout(this.mnemonicTimeout)
-      this.mnemonicTimeout = setTimeout(() => {
-        this.props.context.setPublicKey(address)
-        this.props.context.loadUserData()
-      }, 500)
     } catch (e) {
-      this.setState({
-        error: 'Oops, we have a problem. Please restart the application.'
-      })
+      Alert.alert(tl.t('seed.create.error'))
       logSentry(e)
     }
   }
 
-  render () {
-    const { seed } = this.state
-    const { navigation } = this.props
-    const firstTime = navigation.getParam('firstTime', false)
+  _renderSkip = () => {
+    if (this.state.loading) return null
+    else {
+      return <TouchableOpacity onPress={() => this._confirmSeed('app')}>
+        <Utils.Text size='button'>{tl.t('skip').toUpperCase()}</Utils.Text>
+      </TouchableOpacity>
+    }
+  }
 
+  render () {
+    const { seed, loading } = this.state
     return (
       <Utils.Container>
-        <Utils.View flex={1} />
+        <NavigationHeader
+          title={tl.t('seed.create.title')}
+          onBack={() => this.props.navigation.goBack()}
+          rightButton={this._renderSkip()}
+        />
+        <Utils.View flex={0.5} />
         <Utils.View height={1} backgroundColor={Colors.secondaryText} />
         <Utils.Content backgroundColor={Colors.darkerBackground}>
-          {!seed && <ActivityIndicator />}
-          {seed && (
-            <Utils.Text lineHeight={24} align='center'>
+          {seed
+            ? <Utils.Text lineHeight={24} align='center'>
               {seed}
             </Utils.Text>
-          )}
+            : <ActivityIndicator size='small' />}
         </Utils.Content>
         <Utils.View height={1} backgroundColor={Colors.secondaryText} />
         <Utils.Content paddingBottom={2}>
           <Utils.Row justify='center' align='flex-start' height={60}>
-            {firstTime && (
-              <React.Fragment>
-                <Utils.View style={{flex: 1}}>
-                  <ButtonGradient
-                    onPress={this._getNewMnemonic}
-                    text={tl.t('seed.create.button.newSeed')}
-                    secondary
-                    full
-                  />
-                </Utils.View>
-                <Utils.HorizontalSpacer size='large' />
-              </React.Fragment>
-            )}
+            <Utils.View style={{flex: 1}}>
+              <ButtonGradient
+                onPress={this._getMnemonic}
+                disabled={loading}
+                text={tl.t('seed.create.button.newSeed')}
+                secondary
+                full
+              />
+            </Utils.View>
+            <Utils.HorizontalSpacer size='large' />
             <ButtonGradient
-              onPress={() => (
-                navigation.navigate(
-                  'SeedConfirm',
-                  { seed: seed.split(' ') }
-                ))}
+              disabled={!seed || loading}
+              onPress={() => this._confirmSeed('confirm')}
               text={tl.t('seed.create.button.written')}
               full
             />
           </Utils.Row>
         </Utils.Content>
-        <Utils.Button
-          onPress={() => {
-            navigation.getParam('shouldReset', false)
-              ? navigation.dispatch(resetAction)
-              : navigation.goBack()
-          }}
-        >
-          {tl.t('seed.create.button.later')}
-        </Utils.Button>
-        <Utils.View flex={1} />
+        <Utils.VerticalSpacer size='medium' />
+        <Utils.View align='center' paddingX='medium' />
       </Utils.Container>
     )
   }

@@ -1,5 +1,13 @@
 import { Sentry } from 'react-native-sentry'
 
-export const logSentry = (e) => {
-  Sentry.captureException(e, { logger: 'App._setNodes' })
+export class DataError extends Error {
+  constructor (message) {
+    super(message)
+    this.name = 'DataError'
+    this.message = message
+  }
+}
+
+export const logSentry = (e, module = 'App') => {
+  Sentry.captureException(e, { logger: module })
 }

@@ -31,7 +31,7 @@ import GetVaultScene from './src/scenes/GetVault'
 import FreezeVoteScene from './src/components/Vote/Freeze'
 import RewardsScene from './src/scenes/Rewards'
 import NetworkConnection from './src/scenes/Settings/NetworkModal'
-import SeedCreate from './src/scenes/Seed/Create'
+import SeedSave from './src/scenes/Seed/Save'
 import SeedRestore from './src/scenes/Seed/Restore'
 import SeedConfirm from './src/scenes/Seed/Confirm'
 import TransactionDetails from './src/scenes/TransactionDetails'
@@ -47,6 +47,7 @@ import NavigationHeader from './src/components/Navigation/Header'
 import MakePayScene from './src/scenes/Payments/Make'
 import PaymentsScene from './src/scenes/Payments'
 import ScanPayScene from './src/scenes/Payments/Scan'
+import CreateSeed from './src/scenes/Seed/Create'
 
 import Client from './src/services/client'
 import { Context } from './src/store/context'
@@ -72,7 +73,7 @@ YellowBox.ignoreWarnings(['Warning: isMounted(...) is deprecated', 'Module RCTIm
 const SettingsStack = createStackNavigator({
   Settings,
   About,
-  SeedCreate,
+  SeedSave,
   SeedConfirm,
   NetworkConnection
 }, {
@@ -206,6 +207,7 @@ const AppTabs = createBottomTabNavigator({
 
 const RootNavigator = createStackNavigator({
   Loading: LoadingScene,
+  CreateSeed,
   FirstTime,
   Pin,
   SeedRestore,

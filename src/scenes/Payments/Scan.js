@@ -47,17 +47,22 @@ class ScanPayment extends Component {
     try {
       const parseData = JSON.parse(data)
       const { address, amount, token, data: description } = parseData
+
       if (!isAddressValid(address)) throw new DataError(tl.t('scanPayment.error.receiver'))
       if (!token) throw new DataError(tl.t('scanPayment.error.token'))
       if (!this._checkAmount(amount)) throw new DataError(tl.t('scanPayment.error.amount'))
       if (description && !this._checkDescription(description)) throw new DataError(tl.t('scanPayment.error.description'))
+
       this.setState({loading: false})
       navigation.navigate('MakePayScene', {payment: {address, amount, token, description}})
     } catch (error) {
-      if (error.name === 'DataError') Alert.alert(tl.t('warning'), error.message)
-      else Alert.alert(tl.t('warning'), tl.t('scanPayment.error.code'))
+      if (error.name === 'DataError') {
+        Alert.alert(tl.t('warning'), error.message)
+      } else {
+        Alert.alert(tl.t('warning'), tl.t('scanPayment.error.code'))
+        logSentry(error)
+      }
       this.setState({loading: false})
-      logSentry(error)
       this.scannerTimeout = setTimeout(() => {
         if (this.scanner) this.scanner.reactivate()
       }, 2000)

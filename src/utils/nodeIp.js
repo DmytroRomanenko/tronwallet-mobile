@@ -60,13 +60,13 @@ class NodeIp {
   }
 
   async getAllNodesIp () {
+    const defaultNodes = { nodeIp: this.nodeIp, nodeSolidityIp: this.nodeSolidityIp, isTestnet: false }
     try {
       const nodes = await this.getStorageNodes()
-      if (nodes) return nodes
-      else throw new Error('No node found! Returning default...')
+      return nodes || defaultNodes
     } catch (error) {
       logSentry(error)
-      return { nodeIp: this.nodeIp, nodeSolidityIp: this.nodeSolidityIp, isTestnet: false }
+      return defaultNodes
     }
   }
 

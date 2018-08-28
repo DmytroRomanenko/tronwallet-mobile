@@ -19,7 +19,7 @@ import { signTransaction } from '../../utils/transactionUtils'
 import getTransactionStore from '../../store/transactions'
 import { withContext } from '../../store/context'
 import { formatNumber } from '../../utils/numberUtils'
-import { logSentry } from '../../utils/sentryUtils'
+import { logSentry, DataError } from '../../utils/sentryUtils'
 
 class FreezeScene extends Component {
   static navigationOptions = {
@@ -130,14 +130,18 @@ class FreezeScene extends Component {
 
     this.setState({ loading: true })
     try {
-      if (convertedAmount <= 0) { throw new Error(tl.t('freeze.error.minimiumAmount')) }
-      if (balance < convertedAmount) { throw new Error(tl.t('freeze.error.insufficientAmount')) }
-      if (!Number.isInteger(convertedAmount)) { throw new Error(tl.t('freeze.error.roundNumbers')) }
-      await this._freezeToken()
-    } catch (e) {
+      if (convertedAmount <= 0) { throw new DataError(tl.t('freeze.error.minimiumAmount')) }
+      if (balance < convertedAmount) { throw new DataError(tl.t('freeze.error.insufficientAmount')) }
+      if (!Number.isInteger(convertedAmount)) { throw new DataError(tl.t('freeze.error.roundNumbers')) }
+      this._freezeToken()
+    } catch (error) {
+      if (error.name === 'DataError') {
+        Alert.alert(tl.t('warning'), error.message)
+      } else {
+        Alert.alert(tl.t('warning'), tl.t('error.default'))
+        logSentry(error)
+      }
       this.setState({ loading: false })
-      Alert.alert(tl.t('warning'), e.message)
-      logSentry(e)
     }
   }
 
