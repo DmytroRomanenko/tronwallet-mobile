@@ -28,12 +28,11 @@ import NavigationHeader from '../../components/Navigation/Header'
 
 import { isAddressValid } from '../../services/address'
 import { signTransaction } from '../../utils/transactionUtils'
-import { formatNumber } from '../../utils/numberUtils'
+import { formatNumber, MINIMUM } from '../../utils/numberUtils'
 import getBalanceStore from '../../store/balance'
 import { withContext } from '../../store/context'
 import { USER_FILTERED_TOKENS } from '../../utils/constants'
 import { logSentry } from '../../utils/sentryUtils'
-
 import { ButtonWrapper } from './elements'
 
 class SendScene extends Component {
@@ -226,7 +225,9 @@ class SendScene extends Component {
   _setMaxAmount = () => {
     const { balances, token } = this.state
     const balanceSelected = balances.find(b => b.name === token) || balances[0]
-    this.setState({amount: balanceSelected.balance})
+    const value = balanceSelected.balance < MINIMUM && balanceSelected.balance > 0
+      ? balanceSelected.balance.toFixed(7) : balanceSelected.balance
+    this.setState({ amount: value })
   }
 
   _readPublicKey = e => this.setState({ to: e.data }, () => {

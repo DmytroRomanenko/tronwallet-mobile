@@ -1,7 +1,7 @@
 const formatInteger = (numberStr) => numberStr.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
 const CRYPTO_PRECISION = 6
 const FIAT_PRECISION = 2
-const MINIMUM = Math.pow(10, -CRYPTO_PRECISION)
+export const MINIMUM = Math.pow(10, -CRYPTO_PRECISION)
 
 // These functions needs to be used only with labels and texts
 export const formatNumber = (n, intPrecision = false) => {
