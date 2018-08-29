@@ -115,9 +115,8 @@ class MarketScene extends Component {
       case '1Y':
         url = `${Config.TRX_HISTORY_API}/histoday?fsym=TRX&tsym=USD&limit=364`
         break
-      case 'ALL':
+      default:
         url = `${Config.TRX_HISTORY_API}/histoday?fsym=TRX&tsym=USD&allData=true`
-        break
     }
     const response = await axios.get(url, { credentials: false })
     this.setState({

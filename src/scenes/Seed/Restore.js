@@ -2,6 +2,7 @@ import React from 'react'
 import { Alert, Keyboard } from 'react-native'
 import { StackActions, NavigationActions } from 'react-navigation'
 import { Answers } from 'react-native-fabric'
+import RNTron from 'react-native-tron'
 
 import tl from '../../utils/i18n'
 import * as Utils from '../../components/Utils'
@@ -46,6 +47,7 @@ class Restore extends React.Component {
     Keyboard.dismiss()
     this.setState({ loading: true })
     try {
+      await RNTron.validateMnemonic(seed)
       await this._softResetData()
       await recoverUserKeypair(pin, oneSignalId, seed)
       await loadUserData()
@@ -55,10 +57,11 @@ class Restore extends React.Component {
     } catch (err) {
       Alert.alert(tl.t('warning'), tl.t('seed.restore.error'))
       this.setState({ loading: false })
-      logSentry(err, 'Restore Seed')
+      if (err.code !== 'WordNotFoundExcpetion') logSentry(err, 'Restore Seed')
     }
   }
 
+  _
   _softResetData = async () => {
     const { resetAccount } = this.props.context
     await Promise.all([resetWalletData(), resetListsData()])

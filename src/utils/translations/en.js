@@ -318,7 +318,7 @@ const settings = {
   },
   reset: {
     title: 'Reset Wallet',
-    warning: `Warning: This action will erase all saved data including your 12 secret words. If you didn't save your secret, please do it before continue.`,
+    warning: `Warning: This action will erase all saved data including your 12 secret words. If you didn't save your secret, please do so before you continue.`,
     button: 'OK, I understand it'
   },
   pin: {

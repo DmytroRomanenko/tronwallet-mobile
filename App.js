@@ -56,6 +56,7 @@ import { getUserSecrets } from './src/utils/secretsUtils'
 import getBalanceStore from './src/store/balance'
 import { USER_PREFERRED_CURRENCY } from './src/utils/constants'
 import { ONE_SIGNAL_KEY } from './config'
+import ConfigJson from './package.json'
 
 import fontelloConfig from './src/assets/icons/config.json'
 
@@ -63,10 +64,10 @@ import './ReactotronConfig'
 
 if (!__DEV__) {
   Sentry.config('https://8ffba48a3f30473883ba930c49ab233d@sentry.io/1236809', {
-    disableNativeIntegration: true
+    disableNativeIntegration: Platform.OS === 'android',
+    release: ConfigJson.version
   }).install()
 }
-
 const Icon = createIconSetFromFontello(fontelloConfig, 'tronwallet')
 
 YellowBox.ignoreWarnings(['Warning: isMounted(...) is deprecated', 'Module RCTImageLoader'])
