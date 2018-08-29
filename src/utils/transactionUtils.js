@@ -15,7 +15,7 @@ export const signTransaction = async (privateKey, transactionUnsigned) => {
     )
     return transactionSigned
   } catch (error) {
-    logSentry(error)
+    logSentry(error, 'Signing Transaction')
   }
 }
 

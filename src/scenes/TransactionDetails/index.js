@@ -100,7 +100,7 @@ class TransactionDetails extends React.Component {
       this.refs.hashToast.show(tl.t('transactionDetails.clipboard.tronscanUrl'))
     } catch (error) {
       this.refs.hashToast.show(tl.t('error.clipboardCopied'))
-      logSentry(error)
+      logSentry(error, 'Transaction Detail - onCopy')
     }
   }
 
@@ -339,7 +339,7 @@ class TransactionDetails extends React.Component {
       this._showToast(tl.t('transactionDetails.clipboard.publicKey'))
     } catch (error) {
       this._showToast(tl.t('error.clipboardCopied'))
-      logSentry(error)
+      logSentry(error, 'Transaction Detail - on Copy Press')
     } finally {
       this._closeModal()
     }
@@ -522,7 +522,7 @@ class TransactionDetails extends React.Component {
       this.setState({ item: transaction, refreshing: false })
     } catch (e) {
       this.setState({refreshing: false})
-      logSentry(e)
+      logSentry(e, 'Transaction Detail - on refresh')
     }
   }
 

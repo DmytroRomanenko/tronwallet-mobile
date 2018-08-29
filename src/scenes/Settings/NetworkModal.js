@@ -62,7 +62,7 @@ class ChangeNetworkModal extends Component {
       this.setState({
         error: tl.t('settings.network.modal.error.storage')
       })
-      logSentry(error)
+      logSentry(error, 'Network - Load Data')
     }
   }
 
@@ -100,7 +100,7 @@ class ChangeNetworkModal extends Component {
         loading: false,
         error: tl.t('settings.network.modal.error.update')
       })
-      logSentry(error)
+      logSentry(error, 'Network - Update Node')
     }
   }
 
@@ -118,7 +118,7 @@ class ChangeNetworkModal extends Component {
         loading: false,
         error: tl.t('settings.network.modal.error.update')
       })
-      logSentry(error)
+      logSentry(error, 'Network - Switch testnet')
     }
   }
 
@@ -133,7 +133,7 @@ class ChangeNetworkModal extends Component {
         loading: false,
         error: tl.t('settings.network.modal.error.reset')
       })
-      logSentry(error)
+      logSentry(error, 'Network - Reset Node')
     }
   }
 

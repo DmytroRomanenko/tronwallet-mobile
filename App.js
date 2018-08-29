@@ -55,6 +55,7 @@ import NodesIp from './src/utils/nodeIp'
 import { getUserSecrets } from './src/utils/secretsUtils'
 import getBalanceStore from './src/store/balance'
 import { USER_PREFERRED_CURRENCY } from './src/utils/constants'
+import { ONE_SIGNAL_KEY } from './config'
 
 import fontelloConfig from './src/assets/icons/config.json'
 
@@ -248,7 +249,7 @@ class App extends Component {
 
   async componentDidMount () {
     setTimeout(() => {
-      OneSignal.init('ce0b0f27-0ae7-4a8c-8fff-2a110da3a163')
+      OneSignal.init(ONE_SIGNAL_KEY)
       OneSignal.inFocusDisplaying(2)
       OneSignal.addEventListener('ids', this._onIds)
       OneSignal.addEventListener('opened', this._onOpened)
@@ -372,7 +373,7 @@ class App extends Component {
       this.setState({ freeze: Object.assign({}, this.state.freeze, { [address]: value }) })
     } catch (e) {
       this.setState({ freeze: Object.assign({}, this.state.freeze, { e }) })
-      logSentry(e)
+      logSentry(e, 'App - GetFreeze')
     }
   }
 
@@ -386,7 +387,7 @@ class App extends Component {
       }
       this.setState({ price, circulatingSupply: data.circulating_supply })
     } catch (e) {
-      logSentry(e)
+      logSentry(e, 'App - GetPrice')
     }
   }
 
@@ -394,7 +395,7 @@ class App extends Component {
     try {
       await NodesIp.initNodes()
     } catch (e) {
-      logSentry(e)
+      logSentry(e, 'App - SetNodes')
     }
   }
 

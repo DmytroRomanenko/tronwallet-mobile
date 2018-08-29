@@ -86,7 +86,7 @@ class FreezeScene extends Component {
         return unfreezeStatus
       }
     } catch (e) {
-      logSentry(e)
+      logSentry(e, 'Unfreeze - Load Status')
       return unfreezeStatus
     }
   }
@@ -102,7 +102,7 @@ class FreezeScene extends Component {
         total: tronPower
       })
     } catch (e) {
-      logSentry(e)
+      logSentry(e, 'Freeze - Load Data')
       this.setState({ loading: false })
     }
   }
@@ -116,7 +116,7 @@ class FreezeScene extends Component {
     } catch (e) {
       Alert.alert(tl.t('error.buildingTransaction'))
       this.setState({ loadingSign: false })
-      logSentry(e)
+      logSentry(e, 'Unfreeze - Submit')
     } finally {
       this.setState({loading: false})
     }
@@ -139,7 +139,7 @@ class FreezeScene extends Component {
         Alert.alert(tl.t('warning'), error.message)
       } else {
         Alert.alert(tl.t('warning'), tl.t('error.default'))
-        logSentry(error)
+        logSentry(error, 'Freeze - Submit')
       }
       this.setState({ loading: false })
     }
@@ -154,7 +154,7 @@ class FreezeScene extends Component {
       this._openTransactionDetails(data)
     } catch (e) {
       Alert.alert(Alert.alert(tl.t('error.buildingTransaction')))
-      logSentry(e)
+      logSentry(e, 'Freeze - Create Tx')
     } finally {
       this.setState({ loading: false })
     }
@@ -175,7 +175,7 @@ class FreezeScene extends Component {
     } catch (e) {
       Alert.alert(tl.t('error.gettingTransaction'))
       this.setState({ loadingSign: false })
-      logSentry(e)
+      logSentry(e, 'Freeze - Open Tx')
     }
   }
 

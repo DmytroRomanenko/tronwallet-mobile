@@ -76,7 +76,7 @@ class ContactsForm extends Component {
           this.setState({
             generalError: tl.t('addressBook.form.generalError')
           })
-          logSentry(e)
+          logSentry(e, 'AddressForm - WriteUserSecret')
         }
       } else {
         const store = await getContactStore()
@@ -87,7 +87,7 @@ class ContactsForm extends Component {
           this.setState({
             generalError: tl.t('addressBook.form.generalError')
           })
-          logSentry(e)
+          logSentry(e, 'AddressForm - WriteContact')
         }
       }
       if (reloadData) reloadData()

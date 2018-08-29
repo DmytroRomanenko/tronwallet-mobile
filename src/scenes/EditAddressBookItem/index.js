@@ -58,7 +58,7 @@ class EditContact extends Component {
                       })
                       navigation.goBack()
                     } catch (e) {
-                      logSentry(e)
+                      logSentry(e, 'Contacts - Edit Address')
                     }
                   }
                 }

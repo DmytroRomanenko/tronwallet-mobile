@@ -39,7 +39,7 @@ export default class Contacts extends Component {
       this.setState({
         error: tl.t('addressBook.contacts.loadError')
       })
-      logSentry(e)
+      logSentry(e, 'Contacts - Load Contacts')
     }
   }
 

@@ -36,7 +36,7 @@ class Save extends React.Component {
       this.setState({ seed: mnemonic })
     } catch (e) {
       Alert.alert(tl.t('seed.create.error'))
-      logSentry(e)
+      logSentry(e, 'Save Seed')
     }
   }
 

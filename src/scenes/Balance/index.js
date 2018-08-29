@@ -42,7 +42,7 @@ class BalanceScene extends Component {
       this._loadData()
     } catch (e) {
       this.setState({ error: tl.t('balance.error.loadingData') })
-      logSentry(e)
+      logSentry(e, 'Balance - LoadData')
     }
 
     this._navListener =
@@ -82,7 +82,7 @@ class BalanceScene extends Component {
       this.props.context.setCurrency(currency)
     } catch (e) {
       this.setState({ error: e.message })
-      logSentry(e)
+      logSentry(e, 'Balance - LoadAccounts')
     }
   }
 

@@ -66,7 +66,7 @@ class TransactionDetail extends Component {
       this.setState({ transactionData, signedTransaction, tokenAmount })
     } catch (error) {
       this.setState({ submitError: error.message })
-      logSentry(error)
+      logSentry(error, 'Submit Tx - Load')
     } finally {
       this.setState({ loadingData: false })
     }
@@ -153,7 +153,7 @@ class TransactionDetail extends Component {
         loadingSubmit: false,
         submitted: true
       })
-      logSentry(error)
+      logSentry(error, 'Submit Tx - Submit')
       store.write(() => {
         const lastTransaction = store.objectForPrimaryKey('Transaction', hash)
         store.delete(lastTransaction)

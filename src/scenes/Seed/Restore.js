@@ -55,7 +55,7 @@ class Restore extends React.Component {
     } catch (err) {
       Alert.alert(tl.t('warning'), tl.t('seed.restore.error'))
       this.setState({ loading: false })
-      logSentry(err)
+      logSentry(err, 'Restore Seed')
     }
   }
 

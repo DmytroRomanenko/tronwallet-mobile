@@ -199,7 +199,7 @@ class SendScene extends Component {
       this.setState({
         loadingSign: false
       })
-      logSentry(error)
+      logSentry(error, 'Send - Create Tx')
     }
   }
 
@@ -218,7 +218,7 @@ class SendScene extends Component {
     } catch (error) {
       Alert.alert(tl.t('warning'), tl.t('error.default'))
       this.setState({ loadingSign: false })
-      logSentry(error)
+      logSentry(error, 'Send - Open Tx')
     }
   }
 

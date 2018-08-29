@@ -90,7 +90,7 @@ class TransactionsScene extends Component {
       this.setState({ transactions: updatedTransactions })
     } catch (err) {
       this._setRefreshState(false)
-      logSentry(err)
+      logSentry(err, 'Transactions - load data')
     }
   }
 

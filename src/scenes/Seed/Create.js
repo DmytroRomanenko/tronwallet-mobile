@@ -45,7 +45,7 @@ class Create extends React.Component {
       else navigation.navigate('SeedConfirm', { seed: seed.split(' '), shouldReset: true })
     } catch (e) {
       Alert.alert(tl.t('seed.create.error'))
-      logSentry(e)
+      logSentry(e, 'Create Seed - Confirm')
     } finally {
       this.setState({loading: false})
     }
@@ -57,7 +57,7 @@ class Create extends React.Component {
       this.setState({ seed: mnemonic })
     } catch (e) {
       Alert.alert(tl.t('seed.create.error'))
-      logSentry(e)
+      logSentry(e, 'Create Seed - Get mnemonic')
     }
   }
 

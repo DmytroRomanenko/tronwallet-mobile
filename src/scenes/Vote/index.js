@@ -247,7 +247,7 @@ class VoteScene extends Component {
       } catch (error) {
         Alert.alert(tl.t('error.buildingTransaction'))
         this.setState({ loadingList: false })
-        logSentry(error)
+        logSentry(error, 'Vote - submit')
         navigation.setParams({ disabled: false })
       }
     }
@@ -267,7 +267,7 @@ class VoteScene extends Component {
       })
     } catch (error) {
       this.setState({ error: tl.t('error.gettingTransaction'), loadingList: false })
-      logSentry(error)
+      logSentry(error, 'Vote - open tx')
     }
   }
 
@@ -282,7 +282,7 @@ class VoteScene extends Component {
       this.setState({ loading: false }, () => {
         this.props.navigation.navigate('GetVault')
       })
-      logSentry(error)
+      logSentry(error, 'Vote - open deeplink')
     }
   }
 
@@ -475,7 +475,7 @@ class VoteScene extends Component {
         })
       }
     )
-    logSentry(e)
+    logSentry(e, 'Vote - Throw error')
   }
 
   render () {

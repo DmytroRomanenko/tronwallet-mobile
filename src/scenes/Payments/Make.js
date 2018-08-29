@@ -82,7 +82,7 @@ class MakePayment extends PureComponent {
           Alert.alert(tl.t('warning'), error.message)
         } else {
           Alert.alert(tl.t('warning'), tl.t('makePayment.error.receiver'))
-          logSentry(error)
+          logSentry(error, 'Make Payment - Check')
         }
         this.setState({loading: false})
       }
@@ -106,7 +106,7 @@ class MakePayment extends PureComponent {
       } catch (error) {
         Alert.alert(tl.t('warning'), tl.t('error.default'))
         this.setState({ loading: false })
-        logSentry(error)
+        logSentry(error, 'Make Payment - Build Tx')
       }
     }
 
@@ -146,7 +146,7 @@ class MakePayment extends PureComponent {
           store.delete(lastTransaction)
         })
         this.setState({loading: false})
-        logSentry(error)
+        logSentry(error, 'Make Payment - Transaction Failed')
       }
     }
 

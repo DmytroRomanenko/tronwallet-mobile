@@ -66,6 +66,9 @@ buck-out/
 # AWS amplify
 aws-exports.js
 
+# Config file
+config.js
+
 # Pods
 ios/Pods
 

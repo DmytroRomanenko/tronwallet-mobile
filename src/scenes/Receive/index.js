@@ -41,7 +41,7 @@ class ReceiveScreen extends PureComponent {
       this.refs.toast.show(tl.t('receive.clipboardCopied'))
     } catch (error) {
       this.refs.toast.show(tl.t('error.clipboardCopied'))
-      logSentry(error)
+      logSentry(error, 'Receive - Clipboard')
     }
   }
 

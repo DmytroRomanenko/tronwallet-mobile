@@ -196,7 +196,7 @@ class BuyScene extends Component {
           )
         }
       } else {
-        logSentry(err)
+        logSentry(err, 'Participate - Submit')
         Alert.alert(tl.t('warning'), tl.t('error.default'))
       }
     } finally {
@@ -218,7 +218,7 @@ class BuyScene extends Component {
         })
       })
     } catch (e) {
-      logSentry(e)
+      logSentry(e, 'Participate - Open Tx')
       Alert.alert(tl.t('error.gettingTransaction'))
     }
   }

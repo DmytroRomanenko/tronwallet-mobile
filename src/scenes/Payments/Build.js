@@ -51,7 +51,7 @@ class RequestPayment extends Component {
       this.setState({ currencyPrices: newCurrencyPrices })
     } catch (err) {
       Alert.alert(tl.t('warning'), tl.t('buildPayment.error.currency'))
-      logSentry(err)
+      logSentry(err, 'Build Payment')
     } finally {
       this.setState({loading: false})
     }

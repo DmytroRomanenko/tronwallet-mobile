@@ -66,7 +66,7 @@ class Confirm extends React.Component {
     } catch (error) {
       Alert.alert(tl.t('seed.confirm.error.title'), tl.t('seed.confirm.error.message'))
       if (error.name !== 'DataError') {
-        logSentry(error)
+        logSentry(error, 'Confirm Seed - Submit')
       }
       this.setState({ loading: false })
     }
@@ -94,7 +94,7 @@ class Confirm extends React.Component {
     } catch (error) {
       Answers.logCustom('Wallet Operation', { type: 'Gift', message: error.message })
       if (error.name !== 'DataError') {
-        logSentry(error)
+        logSentry(error, 'Gift')
       }
 
       Alert.alert(tl.t('success'), tl.t('seed.confirm.success'))

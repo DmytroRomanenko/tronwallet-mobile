@@ -21,7 +21,7 @@ class Copiable extends PureComponent {
       showToast(tl.t('transactionDetails.clipboard.publicKey'))
     } catch (error) {
       showToast(tl.t('error.clipboardCopied'))
-      logSentry(error)
+      logSentry(error, 'Copy - onCopy')
     }
   }
 

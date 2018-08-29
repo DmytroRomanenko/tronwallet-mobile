@@ -60,7 +60,7 @@ class ScanPayment extends Component {
         Alert.alert(tl.t('warning'), error.message)
       } else {
         Alert.alert(tl.t('warning'), tl.t('scanPayment.error.code'))
-        logSentry(error)
+        logSentry(error, 'Scan Payment')
       }
       this.setState({loading: false})
       this.scannerTimeout = setTimeout(() => {

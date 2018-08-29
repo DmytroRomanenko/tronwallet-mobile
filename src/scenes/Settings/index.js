@@ -117,7 +117,7 @@ class Settings extends Component {
         currentSelectedTokens: selectedTokens
       })
     } catch (error) {
-      logSentry(error)
+      logSentry(error, 'Settings - Selected tokens')
     }
   }
 
@@ -165,6 +165,7 @@ class Settings extends Component {
           status => console.log('subscriptions status', status)
         )
         if (this.state.subscriptionStatus) {
+          console.warn('Test 4', this.props.context.oneSignalId, this.props.context.publicKey)
           Client.registerDeviceForNotifications(
             this.props.context.oneSignalId,
             this.props.context.publicKey
@@ -194,7 +195,7 @@ class Settings extends Component {
         )
       } catch (e) {
         this.refs.settingsToast.show(tl.t('settings.language.error'))
-        logSentry(e)
+        logSentry(e, 'Settings - Language Change')
       }
     }
   }
@@ -205,7 +206,7 @@ class Settings extends Component {
       await AsyncStorage.setItem(USER_FILTERED_TOKENS, JSON.stringify(currentSelectedTokens))
       this.setState({ userSelectedTokens: currentSelectedTokens })
     } catch (error) {
-      logSentry(error)
+      logSentry(error, 'Settings - Save tokens')
     }
   }
 

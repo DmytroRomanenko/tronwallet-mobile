@@ -1,7 +1,7 @@
 import axios from 'axios'
 import Config from 'react-native-config'
 import NodesIp from '../utils/nodeIp'
-import { AUTH_ID } from '../../aws-exports'
+import { AUTH_ID } from '../../config'
 
 export const ONE_TRX = 1000000
 

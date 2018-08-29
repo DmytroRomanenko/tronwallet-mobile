@@ -14,7 +14,7 @@ const CopyInput = ({ onCopyText, value }) => {
       onCopyText(true)
     } catch (e) {
       onCopyText(false)
-      logSentry(e)
+      logSentry(e, 'CopyInput')
     }
   }
   return (
