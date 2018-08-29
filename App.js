@@ -62,7 +62,7 @@ import './ReactotronConfig'
 
 if (!__DEV__) {
   Sentry.config('https://8ffba48a3f30473883ba930c49ab233d@sentry.io/1236809', {
-    disableNativeIntegration: Platform.OS === 'android'
+    disableNativeIntegration: true
   }).install()
 }
 

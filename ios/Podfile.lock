@@ -148,7 +148,7 @@ PODS:
   - Sentry/Core (3.12.4)
   - Sentry/KSCrash (3.12.4):
     - KSCrash/Core (~> 1.15.12)
-  - SentryReactNative (0.38.1):
+  - SentryReactNative (0.38.3):
     - React
     - Sentry (~> 3.12.4)
     - Sentry/KSCrash (~> 3.12.4)
