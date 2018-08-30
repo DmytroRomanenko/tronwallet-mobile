@@ -1,0 +1,478 @@
+{
+  "relativeTime": {
+    "future": "in %s",
+    "past": "%s ago",
+    "s": "a few seconds",
+    "ss": "%d seconds",
+    "m": "a minute",
+    "mm": "%d minutes",
+    "h": "an hour",
+    "hh": "%d hours",
+    "d": "a day",
+    "dd": "%d days",
+    "M": "a month",
+    "MM": "%d months",
+    "y": "a year",
+    "yy": "%d years"
+  },
+  "success": "Success",
+  "warning": "Warning",
+  "cancel": "Cancel",
+  "ok": "OK",
+  "actionModalTitle": "Would you like to",
+  "error": {
+    "default": "Woops something went wrong. Try again later, If the error persist try to update the network settings.",
+    "buildingTransaction": "Error while building transaction, try again.",
+    "gettingTransaction": "Error while getting transaction.",
+    "clipboardCopied": "Something wrong while copying"
+  },
+  "tronPower": "TRON POWER",
+  "trxPrice": "TRX PRICE",
+  "confirmed": "Confirmed",
+  "unconfirmed": "Unconfirmed",
+  "copyAddress": "COPY ADDRESS",
+  "transactionType": {
+    "transfer": "Transfer",
+    "transferAsset": "Transfer Asset",
+    "freeze": "Freeze",
+    "unfreeze": "Unfreeze",
+    "vote": "Vote",
+    "participate": "Participate",
+    "create": "Create",
+    "undefined": "Undefined Type"
+  },
+  "close": "Close",
+  "ends": "Ends",
+  "clear": "Clear",
+  "allIn": "All In",
+  "skip": "Skip",
+  "balance": {
+    "title": "ACCOUNTS",
+    "error": {
+      "loadingData": "An error occured while loading the data.",
+      "savingCurrency": "Error saving preferred currency"
+    },
+    "chooseCurrency": "Please, choose your preferred currency.",
+    "confirmSeed": "Please tap to confirm your 12 seed words",
+    "bandwidth": "BANDWITH",
+    "tokens": "TOKENS",
+    "holdings": "HOLDINGS"
+  },
+  "components": {
+    "share": {
+      "title": "Share TronWallet address",
+      "message": "This is my TronWallet address:\n\n {{address}}\n\nTip: Once you have copied it you can paste it in your TronWallet app using the special button on Send screen.",
+      "dialogTitle": "Share using:"
+    },
+    "QRScanner": {
+      "title": "Address Scanner",
+      "scan": "Scan",
+      "explanation": "Scan the QRCode to identify the target user",
+      "permissionMessage": "To scan the public key the app needs your permission to access the camera."
+    },
+    "vote": {
+      "enterVote": "ENTER THE VOTE VALUE",
+      "votesRemaining": "VOTES REMAINING",
+      "setVote": "SET VOTE",
+      "moreVotes": "If you need more votes you can Freeze more TRX.",
+      "confirmVotes": "CONFIRM VOTES",
+      "yourVotes": "Your Votes",
+      "myVotes": "MY VOTES",
+      "confirm": "CONFIRM",
+      "freeze": "Freeze",
+      "totalVotes": "Total votes available:",
+      "delete": "DELETE",
+      "set": "SET",
+      "freezeOrLower": "You do not have enough frozen TRX. Freeze more TRX or lower the vote amount",
+      "freezeToContinue": "You do not have enough frozen TRX. Freeze more TRX to continue"
+    }
+  },
+  "firstTime": {
+    "button": {
+      "create": "CREATE WALLET",
+      "restore": "RESTORE WALLET"
+    }
+  },
+  "addressBook": {
+    "shared": {
+      "add": "ADD",
+      "edit": "EDIT",
+      "delete": "DELETE",
+      "send": "SEND"
+    },
+    "contacts": {
+      "delete": {
+        "title": "Delete Contact",
+        "message": "Do you really want to delete this contact?",
+        "cancelButton": "Cancel",
+        "okButton": "OK"
+      },
+      "empty": "Your address book is empty, add a new contact using the button below.",
+      "loadError": "There was a problem loading the contacts. Please try again.",
+      "addContact": "ADD CONTACT",
+      "addToContacts": "ADD TO CONTACTS"
+    },
+    "form": {
+      "generalError": "There was a problem submitting this form. Please contact an administrator.",
+      "nameError": "The name field must start with a letter, contain a maximum of 32 characters, and it will accept only letters, numbers and white spaces.",
+      "addressError": "Something isn't right with the address. Please double check for typos.",
+      "uniqueAddressError": "The key must be unique. Please choose a different address.",
+      "uniqueAliasError": "Names in your address book must be unique. Please choose a different one.",
+      "name": "NAME",
+      "address": "ADDRESS"
+    }
+  },
+  "freeze": {
+    "title": "FREEZE",
+    "unfreeze": {
+      "title": "UNFREEZE",
+      "inThreeDays": "After a three day period you can unfreeze your TRX",
+      "inXMinutes": "You can unfreeze your TRX in {{minutes}} minutes.",
+      "inXHours": "You can unfreeze your TRX in {{hours}} hours.",
+      "inXDays": "You can unfreeze your TRX in {{days}} days.",
+      "now": "You can unfreeze your TRX now."
+    },
+    "error": {
+      "minimumAmount": "The minimum amount for any freeze transaction is 1.",
+      "insufficientBalance": "Insufficient TRX balance",
+      "roundNumbers": "Can only freeze round numbers"
+    },
+    "amount": "FREEZE AMOUNT",
+    "balance": "Balance"
+  },
+  "getVault": {
+    "notInstalled": "It seems that you don't have Tron Vault installed in your phone to proceed with your transaction.",
+    "downloadHere": "You can download it here"
+  },
+  "market": {
+    "time": {
+      "hour": "1H",
+      "day": "1D",
+      "week": "1W",
+      "month": "1M",
+      "all": "ALL"
+    },
+    "highest": "HIGHEST",
+    "lowest": "LOWEST",
+    "volume": "VOLUME 24H",
+    "cap": "MARKET CAP",
+    "supply": "CIRCULATING SUPPLY"
+  },
+  "participate": {
+    "title": "PARTICIPATE",
+    "featured": "FEATURED",
+    "button": {
+      "confirm": "CONFIRM",
+      "moreInfo": "MORE INFO",
+      "buyNow": "BUY NOW"
+    },
+    "error": {
+      "insufficientBalance": "Not enough funds (TRX) to participate.",
+      "insufficientTrx": {
+        "title": "You need to buy at least one TRX worth of {{token}}.",
+        "message": "Currently you are buying only {{amount}}."
+      }
+    },
+    "warning": "You don't have enough TRX to buy that many {{token}}",
+    "amountToBuy": "AMOUNT TO BUY",
+    "pricePerToken": "PRICE PER TOKEN",
+    "tokenDescription": "TOKEN DESCRIPTION",
+    "tokenInfo": "TOKEN INFO",
+    "token": "TOKEN",
+    "tokens": "TOKENS",
+    "frozen": "FROZEN",
+    "percentage": "PERCENTAGE",
+    "issued": "ISSUED",
+    "totalSupply": "TOTAL SUPPLY",
+    "startTime": "START TIME",
+    "endTime": "END TIME",
+    "description": "DESCRIPTION",
+    "transaction": "TRANSACTION",
+    "ownerAddress": "OWNER ADDRESS",
+    "trxNum": "TRX NUM",
+    "num": "NUM",
+    "block": "BLOCK"
+  },
+  "pin": {
+    "title": "SECURITY CHECK",
+    "enter": "Enter PIN",
+    "new": "Enter New PIN",
+    "reenter": "Re-Enter PIN"
+  },
+  "receive": {
+    "title": "RECEIVE",
+    "clipboardCopied": "Copied to clipboard",
+    "button": {
+      "copy": "Copy",
+      "share": "Share"
+    },
+    "tabs": {
+      "share": "SHARE",
+      "request": "REQUEST"
+    }
+  },
+  "rewards": {
+    "title": "REWARDS",
+    "earned": "You have earned"
+  },
+  "seed": {
+    "confirm": {
+      "title": "CONFIRM SEED",
+      "error": {
+        "title": "Wrong Combination",
+        "message": "Selected words don't match. Make sure you wrote the words in the correct order."
+      },
+      "success": "Wallet successfully confirmed",
+      "explanation": "Select the words below in the right order to confirm your secret phrase.",
+      "button": {
+        "reset": "RESET WORDS",
+        "confirm": "CONFIRM SEED"
+      }
+    },
+    "create": {
+      "title": "CREATE SEED",
+      "titleConfirm": "CONFIRM WALLET SEED",
+      "error": "Oops, we have a problem. Please restart the application.",
+      "generateNew": "This will generate a completely new wallet.",
+      "button": {
+        "written": "I'VE WRITTEN IT DOWN",
+        "newSeed": "GET NEW SEED",
+        "later": "Confirm later"
+      }
+    },
+    "restore": {
+      "title": "RESTORE WALLET",
+      "explanation": "To restore your wallet, please provide the same 12 words that you wrote on paper when you created your wallet for the first time. If you enter a different sequence of words, a new empty wallet will be created.",
+      "placeholder": "Please, type your 12 seed words here",
+      "success": "Wallet restored with success!",
+      "warning": "Restore seed will erase all data on this device and pull information from the network for the restored account.",
+      "error": "Oops. Looks like the words you typed aren't a valid mnemonic seed. Check for a typo and try again.",
+      "button": "RESTORE"
+    }
+  },
+  "send": {
+    "title": "SEND",
+    "error": {
+      "insufficientBalance": "Not enough balance.",
+      "gettingBalance": "Error while getting balance data",
+      "incompleteAddress": "Address is either incomplete or invalid.",
+      "invalidReceiver": "Invalid receiver address",
+      "selectBalance": "Select a balance first",
+      "invalidAmount": "Invalid amount"
+    },
+    "input": {
+      "token": "TOKEN",
+      "to": "TO",
+      "amount": "AMOUNT",
+      "description": "DESCRIPTION (OPTIONAL)"
+    },
+    "available": "available",
+    "chooseToken": "Please, choose a token below.",
+    "minimumAmount": "The minimum amount for any send transaction is 0.000001."
+  },
+  "settings": {
+    "title": "SETTINGS",
+    "sectionTitles": {
+      "wallet": "WALLET",
+      "security": "SECURITY",
+      "notification": "NOTIFICATIONS AND IDIOM"
+    },
+    "notifications": {
+      "title": "Notifications"
+    },
+    "network": {
+      "title": "Network",
+      "modal": {
+        "title": "NETWORK",
+        "explanation": "With this option you can select the node that will better suit your needs and preferences. Please be careful while updating the node IP while wrong IP can lead to malfunctions within your wallet. Example: 35.231.121.122:50051",
+        "error": {
+          "storage": "Error getting node ip from local storage",
+          "invalidIp": "Please put a valid IP",
+          "update": "Something went wrong while updating nodes ip",
+          "reset": "Something wrong while reseting node ip"
+        },
+        "success": {
+          "updated": "Updated",
+          "updatedIp": "Nodes IP updated!",
+          "switchTest": "Switched nodes IP to Testnet",
+          "switchMain": "Switched nodes IP to default main",
+          "reset": "Node IP reseted!"
+        },
+        "placeholder": {
+          "loadingIp": "Loading IP",
+          "loadingPort": "Loading Port"
+        },
+        "button": {
+          "update": "Update and Connect",
+          "reset": "Reset"
+        },
+        "mainNode": "Main Node",
+        "solidityNode": "Solidity Node",
+        "testNet": "TestNet"
+      }
+    },
+    "backup": {
+      "title": "Backup Wallet"
+    },
+    "restore": {
+      "title": "Restore Wallet"
+    },
+    "reset": {
+      "title": "Reset Wallet",
+      "warning": "Warning: This action will erase all saved data including your 12 secret words. If you didn't save your secret, please do so before you continue.",
+      "button": "OK, I understand it"
+    },
+    "pin": {
+      "title": "Change Pin",
+      "success": "Pin successfully changed!"
+    },
+    "language": {
+      "title": "Language",
+      "choose": "Please, choose a Language below:",
+      "success": {
+        "title": "Language changed to {{language}}",
+        "description": "However, you still need to restart the app so the changes can take effect. Would you like to do it now?"
+      },
+      "button": {
+        "confirm": "Yes, restart now!",
+        "cancel": "No, I'll do it later"
+      },
+      "error": "Error saving preferred language"
+    },
+    "token": {
+      "title": "Token Filter",
+      "search": "Search tokens",
+      "confirm": "Save",
+      "noResult": "No results..."
+    },
+    "about": {
+      "title": "About",
+      "description": "TronWallet is an open source fully decentralized P2P Crypto Wallet for TRON Network built with React Native. With it you can send and receive tokens, vote on a Super Representative, participate in a token sale, keep track of your balances and transactions and much more. Tap on the link below for a detailed tutorial on how to use it.",
+      "tutorial": "TUTORIAL"
+    },
+    "accepts": {
+      "title": "Who accepts TRX?"
+    },
+    "partners": "PARTNERS"
+  },
+  "submitTransaction": {
+    "title": "TRANSACTION DETAILS",
+    "notification": "You have received a transaction from {{address}}",
+    "notificationPayment": "You have received a payment from {{address}}",
+    "data": "DATA",
+    "time": "TIME",
+    "button": {
+      "tryAgain": "Try again",
+      "submit": "SUBMIT TRANSACTION"
+    },
+    "disconnectedMessage": "It seems that you are disconnected. Reconnect to the internet before proceeding with the transaction.",
+    "dic": {
+      "contractType": "Transaction Type",
+      "ownerAddress": "From",
+      "toAddress": "To",
+      "participateAssetIssueContract": "Participate",
+      "transferAssetContract": "Transfer",
+      "transferContract": "Transfer",
+      "unfreezeBalanceContract": "Unfreeze",
+      "freezeBalanceContract": "Freeze",
+      "assetIssueContract": "Create",
+      "voteWitnessContract": "Vote",
+      "frozenDuration": "Duration",
+      "frozenBalance": "Total to Freeze"
+    },
+    "errorDic": {
+      "contractValidate": "Transaction data not valid. Please try again later.",
+      "signature": "Transaction signature not valid.",
+      "duplicate": "Transaction already broadcasted.",
+      "contractValidateCee": "Transaction data not valid (CEE). Please try again later.",
+      "bandwith": "Not enought bandwidth. Please try again later.",
+      "contractValidateTapos": "Transaction data not valid (TAPOS). Please try again later.",
+      "tooBig": "Transaction too big to be submitted.",
+      "expiration": "Transaction expired. Please try again.",
+      "serverBusy": "Server busy.",
+      "resource": "Insufficient bandwidth or balance. You might need some frozen TRX."
+    },
+    "totalVotes": "Total Votes"
+  },
+  "transactions": {
+    "title": "MY TRANSACTIONS",
+    "from": "From",
+    "to": "To",
+    "notFound": "No transactions found."
+  },
+  "transactionDetails": {
+    "title": "TRANSACTION",
+    "clipboard": {
+      "tronscanUrl": "Tronscan url for this transaction copied to the clipboard",
+      "publicKey": "Public Key copied to the clipboard"
+    },
+    "hash": "HASH",
+    "status": "STATUS",
+    "time": "TIME",
+    "block": "BLOCK",
+    "frozenBalance": "FROZEN BALANCE",
+    "unfrozenBalance": "UNFROZEN BALANCE",
+    "totalVotes": "TOTAL VOTES",
+    "amount": "AMOUNT",
+    "to": "TO",
+    "from": "FROM",
+    "tokenName": "TOKEN NAME",
+    "unityValue": "UNITY VALUE",
+    "totalSupply": "TOTAL SUPPLY",
+    "startTime": "START TIME",
+    "endTime": "END TIME",
+    "description": "DESCRIPTION",
+    "votedAddress": "VOTED ADDRESS"
+  },
+  "transactionSuccess": {
+    "submitted": "TRANSACTION SUBMITTED TO NETWORK!",
+    "success": "SUCCESS!"
+  },
+  "votes": {
+    "title": "VOTES",
+    "totalVotes": "TOTAL VOTES",
+    "votesAvailable": "VOTES AVAILABLE",
+    "search": "Search",
+    "error": "Oops, something didn't load correctly. Try to reload"
+  },
+  "scanPayment": {
+    "scan": "SCAN",
+    "error": {
+      "receiver": "Receiver address invalid",
+      "token": "Token not valid",
+      "amount": "Amount not valid",
+      "description": "Description too long",
+      "code": "Payment code invalid. Please, scan a valid one"
+    }
+  },
+  "makePayment": {
+    "pay": "PAY",
+    "confirm": "CONFIRM PAYMENT",
+    "error": {
+      "receiver": "Receiver is equal to requester",
+      "token": "This account doesn't have the token for this transaction",
+      "amount": "This account doesn't have enough balance.",
+      "description": "No description available"
+    }
+  },
+  "buildPayment": {
+    "generate": "GENERATE REQUEST",
+    "selectCurrency": "Select the reference currency",
+    "error": {
+      "currency": "We weren't able to load other currency prices. Please use TRX as reference"
+    }
+  },
+  "requestPayment": {
+    "title": "REQUEST PAYMENT"
+  },
+  "newAccount": {
+    "success": {
+      "title": "New account successfully created",
+      "message": "You can edit the name on your address book"
+    },
+    "failure": {
+      "title": "New account warning",
+      "message": "To add a new account you should have at least one transaction on your last account."
+    }
+  }
+}

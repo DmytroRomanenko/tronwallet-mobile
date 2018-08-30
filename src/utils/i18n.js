@@ -1,21 +1,23 @@
 import { AsyncStorage } from 'react-native'
-import I18n from 'react-native-i18n'
+import I18n, { getLanguages } from 'react-native-i18n'
 import moment from 'moment'
 
-import { getRelativeTime } from './momentUtils'
 import { USER_PREFERRED_LANGUAGE } from './constants'
-import translations from './translations'
+import translations, { getRelativeTime } from './translations'
 
-AsyncStorage.getItem(USER_PREFERRED_LANGUAGE).then(userLocale => {
-  if (userLocale) {
+getLanguages().then(deviceLanguages => {
+  AsyncStorage.getItem(USER_PREFERRED_LANGUAGE).then(preferredLanguage => {
+    const userLocale = preferredLanguage || deviceLanguages[0]
     const locale = userLocale.substr(0, 2)
-    const relativeTime = getRelativeTime(locale)
-    if (locale !== 'en' && relativeTime) {
+
+    if (locale !== 'en') {
+      const relativeTime = getRelativeTime(locale)
       moment.locale(locale, { relativeTime })
     }
     I18n.locale = userLocale
-  }
+  })
 })
+
 I18n.missingTranslation = (obj) => `Missing this translation ${obj}`
 I18n.defaultLocale = 'en-US'
 I18n.fallbacks = true

@@ -1,15 +1,20 @@
-import en from './en'
-import br from './br'
-import fr from './fr'
-import nl from './nl'
-import es from './es'
-import ch from './ch'
+const en = require('./en.json')
+const pt = require('./pt.json')
+const fr = require('./fr.json')
+const nl = require('./nl.json')
+const es = require('./es.json')
+const ch = require('./ch.json')
 
-export default {
+const translations = {
   en,
-  pt: br,
+  pt,
   fr,
   nl,
   es,
   ch
 }
+
+export const getRelativeTime = (locale) =>
+  translations[locale] ? translations[locale].relativeTime : translations.en.relativeTime
+
+export default translations
