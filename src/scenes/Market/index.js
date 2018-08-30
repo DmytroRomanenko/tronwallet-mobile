@@ -147,6 +147,8 @@ class MarketScene extends Component {
     const { currency } = this.state
     const { price } = this.props.context
 
+    const priceToDisplay = !!price && !!currency ? price[currency].price : 0
+
     return (
       <Utils.ContentWithBackground
         source={require('../../assets/market-header.png')}
@@ -170,7 +172,7 @@ class MarketScene extends Component {
               <Utils.HorizontalSpacer />
               <Motion
                 defaultStyle={{ data: 0 }}
-                style={{ data: spring(price && currency ? price[currency].price : 0) }}
+                style={{ data: spring(priceToDisplay) }}
               >
                 {value => (
                   <Utils.Text size='medium'>

@@ -329,8 +329,7 @@ class VoteScene extends Component {
   _setupVoteModal = item => {
     this.setState({
       modalVisible: true,
-      currentVoteItem: item,
-      startedVoting: true
+      currentVoteItem: item
     })
   }
 
@@ -363,6 +362,7 @@ class VoteScene extends Component {
   }
 
   _acceptCurrentVote = (amountToVote) => {
+    this.setState({startedVoting: true})
     amountToVote <= 0
       ? this._removeVoteFromList()
       : this._onChangeVotes(amountToVote)
