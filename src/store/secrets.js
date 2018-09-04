@@ -17,7 +17,8 @@ const UserSecretSchema = {
     privateKey: 'string',
     publicKey: 'string',
     name: 'string',
-    alias: 'string'
+    alias: 'string',
+    hide: 'bool'
   }
 }
 
@@ -33,12 +34,19 @@ const getStore = async pin => {
     path: `realm.userSecrets`,
     schema: [UserSecretSchema],
     encryptionKey: keyBytes,
-    schemaVersion: 1,
+    schemaVersion: 2,
     migration: (oldRealm, newRealm) => {
-      if (oldRealm.schemaVersion < 1) {
-        const newObjects = newRealm.objects('UserSecret')
-        newObjects[0].name = 'Main Account'
-        newObjects[0].alias = '@main_account'
+      const newObjects = newRealm.objects('UserSecret')
+      if (newObjects.length) {
+        if (oldRealm.schemaVersion < 1) {
+          newObjects[0].name = 'Main Account'
+          newObjects[0].alias = '@main_account'
+        }
+        if (oldRealm.schemaVersion < 2) {
+          newObjects.forEach(object => {
+            object.hide = false
+          })
+        }
       }
     }
   })

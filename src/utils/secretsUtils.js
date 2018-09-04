@@ -53,6 +53,7 @@ export const createNewAccount = async (pin, oneSignalId) => {
     generatedKeypair.name = `Account ${accounts.length}`
     generatedKeypair.alias = `@account${accounts.length}`
     generatedKeypair.confirmed = true
+    generatedKeypair.hide = false
     const secretsStore = await getSecretsStore(pin)
     await secretsStore.write(() => secretsStore.create('UserSecret', generatedKeypair, true))
     Alert.alert(
@@ -76,6 +77,7 @@ const generateKeypair = async (pin, oneSignalId, mnemonic, vaultNumber, randomly
   generatedKeypair.confirmed = !randomlyGenerated
   generatedKeypair.name = 'Main Account'
   generatedKeypair.alias = '@main_account'
+  generatedKeypair.hide = false
   await resetSecretData(pin)
   const secretsStore = await getSecretsStore(pin)
   await secretsStore.write(() => secretsStore.create('UserSecret', generatedKeypair, true))
@@ -91,6 +93,7 @@ export const restoreFromPrivateKey = async (pin, oneSignalId, address, privateKe
     confirmed: true,
     mnemonic: '',
     password: '',
+    hide: false,
     name: 'Main Account',
     alias: '@main_account'
   }
@@ -119,4 +122,21 @@ export const resetSecretData = async pin => {
   const secretsStore = await getSecretsStore(pin)
   const secretList = secretsStore.objects('UserSecret')
   await secretsStore.write(() => secretsStore.delete(secretList))
+}
+
+export const hideSecret = async (pin, address) => {
+  const secretsStore = await getSecretsStore(pin)
+  const allSecrets = secretsStore.objects('UserSecret')
+  const secretToHide = allSecrets.find(secret => secret.address === address)
+  secretsStore.write(() => { secretToHide.hide = true })
+}
+
+export const unhideSecret = async (pin, addresses = []) => {
+  const secretsStore = await getSecretsStore(pin)
+  const allSecrets = secretsStore.objects('UserSecret')
+  secretsStore.write(() => {
+    allSecrets.forEach(secretToRecover => {
+      if (addresses.includes(secretToRecover.address)) secretToRecover.hide = false
+    })
+  })
 }

@@ -290,9 +290,6 @@ class App extends Component {
     // console.log('isActive: ', openResult.notification.isAppInFocus)
     // console.log('openResult: ', openResult)
   }
-
-  _resetAccounts = () => this.setState({accounts: [], publicKey: null})
-
   _loadUserData = async () => {
     let accounts = await getUserSecrets(this.state.pin)
     // First Time
@@ -300,10 +297,12 @@ class App extends Component {
 
     if (this.state.accounts) {
       // merge store with state
-      accounts = accounts.map(account => {
-        const stateAccount = this.state.accounts.find(item => item.address === account.address)
-        return Object.assign({}, stateAccount, account)
-      })
+      accounts = accounts
+        .filter(account => !account.hide)
+        .map(account => {
+          const stateAccount = this.state.accounts.find(item => item.address === account.address)
+          return Object.assign({}, stateAccount, account)
+        })
     }
     this.setState({ accounts }, async () => {
       await this._updateBalances(accounts)
@@ -427,6 +426,13 @@ class App extends Component {
     })
   }
 
+  _resetAccounts = () => this.setState({accounts: [], publicKey: null})
+
+  _hideAccount = address => {
+    const newAccounts = this.state.accounts.filter(acc => acc.address !== address)
+    this.setState({accounts: newAccounts})
+  }
+
   _openShare = () => {
     this.setState({
       shareModal: true
@@ -459,6 +465,7 @@ class App extends Component {
       updateBalances: this._updateBalances,
       setCurrency: this._setCurrency,
       resetAccount: this._resetAccounts,
+      hideAccount: this._hideAccount,
       setAskPin: this._setAskPin,
       setSecretMode: this._setSecretMode
     }
