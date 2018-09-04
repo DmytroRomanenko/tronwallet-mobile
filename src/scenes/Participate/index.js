@@ -23,6 +23,7 @@ import { ONE_TRX } from '../../services/client'
 import guarantee from '../../assets/guarantee.png'
 import NavigationHeader from '../../components/Navigation/Header'
 import { logSentry } from '../../utils/sentryUtils'
+import { FEATURED_TOKENS } from '../../utils/constants'
 
 import {
   Container,
@@ -80,14 +81,23 @@ class ParticipateHome extends React.Component {
       _onSearchPressed: this._onSearchPressed
     })
 
-    await this._getTwxFromStore()
+    await this._getFeaturedTokensFromStore()
     this._loadData()
   }
 
-  _getTwxFromStore = async () => {
+  _buildFeaturedFilterString = () =>
+    FEATURED_TOKENS.reduce((filter, token, index) => {
+      filter += `name == '${token}'`
+      if (index + 1 < FEATURED_TOKENS.length) {
+        filter += ' OR '
+      }
+      return filter
+    }, '')
+
+  _getFeaturedTokensFromStore = async () => {
     const store = await getAssetsStore()
     const filtered = store.objects('Asset')
-      .filtered(`name == 'TWX'`)
+      .filtered(this._buildFeaturedFilterString())
       .map(item => Object.assign({}, item))
 
     if (filtered.length) {
@@ -134,7 +144,9 @@ class ParticipateHome extends React.Component {
     const assets = await updateAssets(start, end, name)
     return assets
       .filter(({ issuedPercentage, name, startTime, endTime }) =>
-        issuedPercentage < 100 && name !== 'TRX' && name !== 'TWX' && startTime < Date.now() && endTime > Date.now())
+        issuedPercentage < 100 && name !== 'TRX' && startTime < Date.now() && endTime > Date.now() &&
+        !FEATURED_TOKENS.includes(name)
+      )
       .sort((a, b) => b.issuedPercentage - a.issuedPercentage)
   }
 
@@ -219,7 +231,7 @@ class ParticipateHome extends React.Component {
             </Row>
           </View>
           <HorizontalSpacer size={20} />
-          {name === 'TWX' && (
+          {verified && (
             <BuyButton elevation={8}>
               <ButtonText>{tl.t('participate.button.buyNow')}</ButtonText>
             </BuyButton>

@@ -10,13 +10,13 @@ import { updateAssets } from '../../utils/assetsUtils'
 import { getUserSecrets } from '../../utils/secretsUtils'
 import SecretStore from '../../store/secrets'
 import { withContext } from '../../store/context'
-import { USER_STATUS, USER_FILTERED_TOKENS } from '../../utils/constants'
+import { USER_STATUS, USER_FILTERED_TOKENS, FEATURED_TOKENS } from '../../utils/constants'
 import LottieView from 'lottie-react-native'
 
 class LoadingScene extends Component {
   componentDidMount () {
     SplashScreen.hide()
-    updateAssets(0, 1, 'twx')
+    FEATURED_TOKENS.forEach(token => updateAssets(0, 1, token))
     this._setFilteredTokens()
     this._askPin()
   }

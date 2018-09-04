@@ -5,6 +5,7 @@ import getSecretsStore from '../store/secrets'
 import getTransactionStore from '../store/transactions'
 import Client from '../services/client'
 import { updateTransactions } from '../utils/transactionUtils'
+import { formatAlias } from '../utils/contactUtils'
 import { USER_STATUS } from '../utils/constants'
 import tl from '../utils/i18n'
 
@@ -44,14 +45,14 @@ const isOnBlockchain = async address => {
   return transactions.length > 0
 }
 
-export const createNewAccount = async (pin, oneSignalId) => {
+export const createNewAccount = async (pin, oneSignalId, newAccountName) => {
   const accounts = await getUserSecrets(pin)
   if (await isOnBlockchain(accounts[accounts.length - 1].address)) {
     const { mnemonic } = accounts[0]
     const generatedKeypair = await RNTron.generateKeypair(mnemonic, accounts.length, false)
     generatedKeypair.mnemonic = mnemonic
-    generatedKeypair.name = `Account ${accounts.length}`
-    generatedKeypair.alias = `@account${accounts.length}`
+    generatedKeypair.name = newAccountName
+    generatedKeypair.alias = formatAlias(newAccountName)
     generatedKeypair.confirmed = true
     generatedKeypair.hide = false
     const secretsStore = await getSecretsStore(pin)

@@ -35,3 +35,5 @@ export const resetContactsData = async () => {
   const contactsList = contacts.objects('Contact')
   contacts.write(() => contacts.delete(contactsList))
 }
+
+export const formatAlias = (name) => `@${name.trim().toLowerCase().replace(/ /g, '_')}`

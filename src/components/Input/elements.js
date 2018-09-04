@@ -18,7 +18,7 @@ export const InputWrapper = styled.View`
 export const LabelWrapper = styled.View`
   padding-vertical: 2px;
   padding-horizontal: 4px;
-  background-color: #191A2A;
+  background-color: ${props => props.color};
   z-index: 999;
   position: absolute;
   left: 5px;

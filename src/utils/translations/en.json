@@ -478,6 +478,8 @@
     "title": "REQUEST PAYMENT"
   },
   "newAccount": {
+    "title": "Account Creation",
+    "placeholder": "My precious account",
     "success": {
       "title": "New account successfully created",
       "message": "You can edit the name on your address book"

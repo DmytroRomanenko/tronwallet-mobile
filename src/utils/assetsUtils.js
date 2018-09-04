@@ -1,5 +1,6 @@
 import Client from '../services/client'
 import getAssetsStore from '../store/assets'
+import { FEATURED_TOKENS } from './constants'
 
 export const updateAssets = async (start = 0, limit = 100, name = '') => {
   const assets = await Client.getTokenList(start, limit, name)
@@ -18,18 +19,13 @@ export const orderAssets = (assets) => {
     orderedVerified[index] = asset
   }
   assets.forEach((asset) => {
-    switch (asset.name) {
-      case 'TRX':
-        verifyAsset(0, asset)
-        break
-      case 'TWX':
-        verifyAsset(1, asset)
-        break
-      case 'CryptoChain':
-        verifyAsset(2, asset)
-        break
-      default:
-        rest.push(asset)
+    if (asset.name === 'TRX') {
+      verifyAsset(0, asset)
+    } else {
+      const featuredIndex = FEATURED_TOKENS.findIndex(token => token === asset.name)
+      featuredIndex !== -1
+        ? verifyAsset(featuredIndex + 1, asset)
+        : rest.push(asset)
     }
   })
 

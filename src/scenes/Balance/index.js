@@ -9,6 +9,7 @@ import {
 import { Answers } from 'react-native-fabric'
 import Feather from 'react-native-vector-icons/Feather'
 
+import FormModal from '../../components/FormModal'
 import SyncButton from '../../components/SyncButton'
 import NavigationHeader from '../../components/Navigation/Header'
 import * as Utils from '../../components/Utils'
@@ -18,6 +19,8 @@ import BalanceNavigation from './BalanceNavigation'
 import AccountsCarousel from './AccountsCarousel'
 
 import tl from '../../utils/i18n'
+import { isNameValid, isAliasUnique } from '../../utils/validations'
+import { formatAlias } from '../../utils/contactUtils'
 import { USER_PREFERRED_CURRENCY } from '../../utils/constants'
 import { createNewAccount } from '../../utils/secretsUtils'
 import { updateAssets } from '../../utils/assetsUtils'
@@ -37,7 +40,10 @@ class BalanceScene extends Component {
     error: null,
     balances: [],
     currency: null,
-    appState: AppState.currentState
+    appState: AppState.currentState,
+    accountModalVisible: false,
+    newAccountName: '',
+    accountNameError: null
   }
 
   componentDidMount () {
@@ -65,11 +71,41 @@ class BalanceScene extends Component {
     AppState.removeEventListener('change', this._handleAppStateChange)
   }
 
+  _createAccountPressed = () => {
+    const { accounts } = this.props.context
+    const newAccountName = `Account ${accounts.length}`
+
+    this.setState({ accountModalVisible: true, newAccountName, accountNameError: null })
+  }
+
+  _validateAccountName = async (name) => {
+    if (name) {
+      if (!isNameValid(name)) {
+        return tl.t('addressBook.form.nameError')
+      }
+
+      const aliasIsUnique = await isAliasUnique(formatAlias(name), this.props.context.pin)
+      if (!aliasIsUnique) {
+        return tl.t('addressBook.form.uniqueAliasError')
+      }
+    }
+
+    return null
+  }
+
+  _handleAccountNameChange = async (name) => {
+    const accountNameError = await this._validateAccountName(name)
+    this.setState({ newAccountName: name, accountNameError })
+  }
+
   _addNewAccount = async () => {
-    this.setState({ creatingNewAccount: true })
-    const createdNewAccount = await createNewAccount(this.props.context.pin, this.props.context.oneSignalId)
+    const { newAccountName } = this.state
+    const { pin, oneSignalId, loadUserData } = this.props.context
+
+    this.setState({ creatingNewAccount: true, accountModalVisible: false })
+    const createdNewAccount = await createNewAccount(pin, oneSignalId, newAccountName)
     if (createdNewAccount) {
-      await this.props.context.loadUserData()
+      await loadUserData()
       this.carousel.innerComponent._snapToNewAccount()
     }
     this.setState({ creatingNewAccount: false })
@@ -93,6 +129,7 @@ class BalanceScene extends Component {
     const { appState } = this.state
     const { alwaysAskPin } = this.props.context
     if (nextAppState.match(/inactive|background/) && appState === 'active' && alwaysAskPin) {
+      this.setState({ accountModalVisible: false })
       this.props.navigation.navigate('Pin', {
         testInput: pin => pin === this.props.context.pin,
         onSuccess: () => {}
@@ -120,7 +157,7 @@ class BalanceScene extends Component {
     if (secretMode === 'privatekey') {
       return null
     } else {
-      return <TouchableOpacity onPress={this._addNewAccount} disabled={creatingNewAccount}>
+      return <TouchableOpacity onPress={this._createAccountPressed} disabled={creatingNewAccount}>
         {creatingNewAccount
           ? <SyncButton
             loading
@@ -135,7 +172,10 @@ class BalanceScene extends Component {
   render () {
     const {
       seed,
-      refreshing
+      refreshing,
+      accountModalVisible,
+      newAccountName,
+      accountNameError
     } = this.state
     const {
       accounts,
@@ -170,6 +210,20 @@ class BalanceScene extends Component {
             </Utils.Content>
           </ScrollView>
         </Utils.Container>
+        <FormModal
+          title={tl.t('newAccount.title')}
+          error={accountNameError}
+          inputLabel={tl.t('addressBook.form.name')}
+          inputValue={newAccountName}
+          inputPlaceholder={tl.t('newAccount.placeholder')}
+          onChangeText={this._handleAccountNameChange}
+          buttonText={tl.t(`addressBook.shared.add`)}
+          onButtonPress={this._addNewAccount}
+          buttonDisabled={!!accountNameError || !newAccountName}
+          visible={accountModalVisible}
+          closeModal={() => this.setState({ accountModalVisible: false })}
+          animationType='fade'
+        />
       </React.Fragment>
     )
   }

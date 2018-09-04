@@ -42,6 +42,7 @@ const formatValue = (value, numbersOnly, type) => {
 const Input = ({
   innerRef,
   label,
+  labelWrapperColor,
   leftContent,
   rightContent,
   onChangeText,
@@ -53,7 +54,7 @@ const Input = ({
   ...props
 }) => (
   <Elements.Wrapper>
-    <Elements.LabelWrapper>
+    <Elements.LabelWrapper color={labelWrapperColor}>
       <Elements.Label>{label}</Elements.Label>
     </Elements.LabelWrapper>
     <Elements.InputWrapper>
@@ -80,6 +81,7 @@ const Input = ({
 )
 
 Input.defaultProps = {
+  labelWrapperColor: '#191A2A',
   placeholderTextColor: '#66688F',
   returnKeyType: 'send',
   numbersOnly: false,
