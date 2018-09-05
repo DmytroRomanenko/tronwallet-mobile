@@ -1,4 +1,5 @@
 import React from 'react'
+import { BackHandler } from 'react-native'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import * as Animatable from 'react-native-animatable'
 
@@ -11,6 +12,20 @@ class PinScene extends React.Component {
     isDoubleChecking: false,
     pin: '',
     checkPin: ''
+  }
+
+  componentDidMount () {
+    this.backHandler = BackHandler.addEventListener('hardwareBackPress', () => {
+      const shouldGoBack = this.props.navigation.getParam('shouldGoBack', false)
+      if (shouldGoBack) {
+        this.props.navigation.goBack()
+      }
+      return true
+    })
+  }
+
+  componentWillUnmount () {
+    this.backHandler.remove()
   }
 
   _resetState = () => {
