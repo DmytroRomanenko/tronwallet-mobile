@@ -4,7 +4,7 @@ import getBalanceStore from '../store/balance'
 import getTransactionStore from '../store/transactions'
 import getAssetsStore from '../store/assets'
 import getCandidatesStore from '../store/candidates'
-import { USER_STATUS, USER_FILTERED_TOKENS } from './constants'
+import { USER_STATUS, USER_FILTERED_TOKENS, FEATURED_TOKENS } from './constants'
 
 import NodesIp from '../utils/nodeIp'
 import { resetContactsData } from '../utils/contactUtils'
@@ -23,13 +23,22 @@ export const resetWalletData = async () => {
   ])
 }
 
+export const buildFeaturedFilterString = (comparison = '==', logic = 'OR') =>
+  FEATURED_TOKENS.reduce((filter, token, index) => {
+    filter += `name ${comparison} '${token}'`
+    if (index + 1 < FEATURED_TOKENS.length) {
+      filter += ` ${logic} `
+    }
+    return filter
+  }, '')
+
 // This is used for testnet mainly
 export const resetListsData = async () => {
   const [assetsStore, candidatesStore] = await Promise.all([
     getAssetsStore(),
     getCandidatesStore()
   ])
-  const assetsList = assetsStore.objects('Asset')
+  const assetsList = assetsStore.objects('Asset').filtered(buildFeaturedFilterString('!=', 'AND'))
   const candidateList = candidatesStore.objects('Candidate')
 
   await Promise.all([
