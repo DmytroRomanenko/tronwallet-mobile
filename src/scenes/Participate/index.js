@@ -24,6 +24,7 @@ import guarantee from '../../assets/guarantee.png'
 import NavigationHeader from '../../components/Navigation/Header'
 import { logSentry } from '../../utils/sentryUtils'
 import { FEATURED_TOKENS } from '../../utils/constants'
+import { buildFeaturedFilterString } from '../../utils/userAccountUtils'
 
 import {
   Container,
@@ -85,19 +86,10 @@ class ParticipateHome extends React.Component {
     this._loadData()
   }
 
-  _buildFeaturedFilterString = () =>
-    FEATURED_TOKENS.reduce((filter, token, index) => {
-      filter += `name == '${token}'`
-      if (index + 1 < FEATURED_TOKENS.length) {
-        filter += ' OR '
-      }
-      return filter
-    }, '')
-
   _getFeaturedTokensFromStore = async () => {
     const store = await getAssetsStore()
     const filtered = store.objects('Asset')
-      .filtered(this._buildFeaturedFilterString())
+      .filtered(buildFeaturedFilterString())
       .map(item => Object.assign({}, item))
 
     if (filtered.length) {

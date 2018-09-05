@@ -114,8 +114,7 @@ class BuyScene extends Component {
   _incrementVoteCount = quant => {
     const { price } = this.props.navigation.state.params.item
     const { amountToBuy, totalRemaining } = this.state
-
-    const amountToPay = this._fixNumber((price / ONE_TRX) * quant)
+    const amountToPay = (price / ONE_TRX) * quant
 
     if (amountToPay > totalRemaining) {
       this.setState({ notEnoughTrxBalance: true })
@@ -123,7 +122,7 @@ class BuyScene extends Component {
     }
     this.setState({
       amountToBuy: amountToBuy + quant,
-      totalRemaining: totalRemaining - amountToPay,
+      totalRemaining: totalRemaining - this._fixNumber(amountToPay),
       notEnoughTrxBalance: false
     })
   }
@@ -172,7 +171,6 @@ class BuyScene extends Component {
     const isDisabled = buyOptions[buyKey] > totalRemainingToBuy
 
     if (totalPossible < 10000 && buyOptions[buyKey] >= 10000) return
-
     return <Utils.NumKeyWrapper disabled={isDisabled} key={buyKey} flexBasis={25}>
       <Utils.NumKey
         disabled={isDisabled}
