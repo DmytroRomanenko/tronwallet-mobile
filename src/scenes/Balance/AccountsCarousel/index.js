@@ -46,6 +46,11 @@ class AccountsCarousel extends React.Component {
     }
   }
 
+  _formatAddress = (address) => address
+    .substring(0, 9)
+    .concat('...')
+    .concat(address.substring(25, address.length))
+
   _renderItem = ({ item }) => {
     const { freeze, publicKey, currency } = this.props.context
     return (
@@ -77,6 +82,8 @@ class AccountsCarousel extends React.Component {
               <Icon source={require('../../../assets/tron-logo-small.png')} />
             </TronLogo>
             <Utils.Text color='#9b9cb9'>{item.name}</Utils.Text>
+            <Utils.VerticalSpacer />
+            <Utils.Text color='white' size='smaller' font='regular'>{this._formatAddress(item.address)}</Utils.Text>
             <Utils.VerticalSpacer size='medium' />
             {(
               <TouchableOpacity onPress={() => this.ActionSheet.show()}>
