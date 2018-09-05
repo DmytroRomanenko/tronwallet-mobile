@@ -11,7 +11,7 @@ import tl from '../utils/i18n'
 
 export const createUserKeyPair = async (pin, oneSignalId, mnemonic = null) => {
   if (!mnemonic) mnemonic = await RNTron.generateMnemonic()
-  await generateKeypair(pin, oneSignalId, mnemonic, 0, true)
+  await generateKeypair(pin, oneSignalId, mnemonic, 0, true, true)
   AsyncStorage.setItem(USER_STATUS, 'active')
 }
 
@@ -20,10 +20,11 @@ export const recoverUserKeypair = async (
   oneSignalId,
   mnemonic,
   vaultNumber = 0,
-  randomlyGenerated = false
+  randomlyGenerated = false,
+  removeExtraDeviceIds = true
 ) => {
   await RNTron.validateMnemonic(mnemonic)
-  await generateKeypair(pin, oneSignalId, mnemonic, vaultNumber, randomlyGenerated)
+  await generateKeypair(pin, oneSignalId, mnemonic, vaultNumber, randomlyGenerated, removeExtraDeviceIds)
   AsyncStorage.setItem(USER_STATUS, 'active')
 }
 
@@ -71,7 +72,7 @@ export const createNewAccount = async (pin, oneSignalId, newAccountName) => {
   }
 }
 
-const generateKeypair = async (pin, oneSignalId, mnemonic, vaultNumber, randomlyGenerated) => {
+const generateKeypair = async (pin, oneSignalId, mnemonic, vaultNumber, randomlyGenerated, removeExtraDeviceIds = false) => {
   const generatedKeypair = await RNTron.generateKeypair(mnemonic, 0, false)
   generatedKeypair.mnemonic = mnemonic
   generatedKeypair.confirmed = !randomlyGenerated
@@ -80,10 +81,11 @@ const generateKeypair = async (pin, oneSignalId, mnemonic, vaultNumber, randomly
   await resetSecretData(pin)
   const secretsStore = await getSecretsStore(pin)
   await secretsStore.write(() => secretsStore.create('UserSecret', generatedKeypair, true))
-  Client.registerDeviceForNotifications(oneSignalId, generatedKeypair.address)
+  Client.registerDeviceForNotifications(oneSignalId, generatedKeypair.address, removeExtraDeviceIds)
 }
 
 export const restoreFromPrivateKey = async (pin, oneSignalId, address, privateKey) => {
+  const removeExtraDeviceIds = true
   await resetSecretData(pin)
   const userSecrets = {
     privateKey,
@@ -97,7 +99,7 @@ export const restoreFromPrivateKey = async (pin, oneSignalId, address, privateKe
   }
   const secretsStore = await getSecretsStore(pin)
   await secretsStore.write(() => secretsStore.create('UserSecret', userSecrets, true))
-  Client.registerDeviceForNotifications(oneSignalId, address)
+  Client.registerDeviceForNotifications(oneSignalId, address, removeExtraDeviceIds)
   AsyncStorage.setItem(USER_STATUS, 'active')
 }
 

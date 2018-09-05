@@ -220,8 +220,8 @@ class ClientWallet {
     return transaction
   }
 
-  async registerDeviceForNotifications (deviceId, publicKey) {
-    return axios.post(`${Config.TRONWALLET_API}/user/put`, { deviceId, publicKey })
+  async registerDeviceForNotifications (deviceId, publicKey, removeExtraDeviceIds) {
+    return axios.post(`${Config.TRONWALLET_API}/user/put`, { deviceId, publicKey, refresh: removeExtraDeviceIds })
   }
 
   async notifyNewTransactions (id, transactions) {
