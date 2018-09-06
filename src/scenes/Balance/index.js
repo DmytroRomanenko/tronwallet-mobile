@@ -5,7 +5,8 @@ import {
   AsyncStorage,
   TouchableOpacity,
   AppState,
-  DeviceEventEmitter
+  DeviceEventEmitter,
+  Platform
 } from 'react-native'
 import { Answers } from 'react-native-fabric'
 import Feather from 'react-native-vector-icons/Feather'
@@ -41,7 +42,6 @@ class BalanceScene extends Component {
     error: null,
     balances: [],
     currency: null,
-    appState: AppState.currentState,
     accountModalVisible: false,
     newAccountName: '',
     accountNameError: null
@@ -57,11 +57,12 @@ class BalanceScene extends Component {
     }
 
     this._navListener = this.props.navigation.addListener('didFocus', this._loadData)
-    DeviceEventEmitter.addListener('ActivityStateChange', this._handleAndroidStateChange)
 
     this.refreshInterval = setInterval(this._onInterval, REFRESH_TIME)
 
-    AppState.addEventListener('change', this._handleAppStateChange)
+    Platform.OS === 'android'
+      ? this.activityStateListener = DeviceEventEmitter.addListener('ActivityStateChange', (e) => this._handleAppStateChange(e.event))
+      : this.appStateListener = AppState.addEventListener('change', this._handleAppStateChange)
 
     // Update assets when you enter the wallet
     updateAssets()
@@ -71,6 +72,9 @@ class BalanceScene extends Component {
     this._navListener.remove()
     clearInterval(this.refreshInterval)
     AppState.removeEventListener('change', this._handleAppStateChange)
+    Platform.OS === 'android'
+      ? this.activityStateListener.remove()
+      : this.appStateListener.remove()
   }
 
   _createAccountPressed = () => {
@@ -127,31 +131,15 @@ class BalanceScene extends Component {
     this.setState({ refreshing: false })
   }
 
-  _handleAndroidStateChange = ({event}) => {
-    const { appState } = this.state
-    const { alwaysAskPin } = this.props.context
-    if (event.match(/background/) && appState === 'active' && alwaysAskPin) {
-      this.setState({ accountModalVisible: false })
-      this.props.navigation.navigate('Pin', {
-        testInput: pin => pin === this.props.context.pin,
-        onSuccess: () => {}
-      })
-    }
-    console.warn(event)
-    this.setState({ appState: event })
-  }
-
   _handleAppStateChange = nextAppState => {
-    const { appState } = this.state
     const { alwaysAskPin } = this.props.context
-    if (nextAppState.match(/inactive|background/) && appState === 'active' && alwaysAskPin) {
+    if (nextAppState.match(/background/) && alwaysAskPin) {
       this.setState({ accountModalVisible: false })
       this.props.navigation.navigate('Pin', {
         testInput: pin => pin === this.props.context.pin,
         onSuccess: () => {}
       })
     }
-    this.setState({ appState: nextAppState })
   }
 
   _loadData = async () => {
