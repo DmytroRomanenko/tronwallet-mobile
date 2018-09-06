@@ -71,7 +71,6 @@ class BalanceScene extends Component {
   componentWillUnmount () {
     this._navListener.remove()
     clearInterval(this.refreshInterval)
-    AppState.removeEventListener('change', this._handleAppStateChange)
     this.appStateListener.remove()
   }
 
