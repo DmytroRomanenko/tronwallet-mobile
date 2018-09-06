@@ -7,6 +7,7 @@ import {
   AppState
 } from 'react-native'
 import { Answers } from 'react-native-fabric'
+import { unionBy } from 'lodash'
 import Feather from 'react-native-vector-icons/Feather'
 
 import FormModal from '../../components/FormModal'
@@ -21,7 +22,7 @@ import AccountsCarousel from './AccountsCarousel'
 import tl from '../../utils/i18n'
 import { isNameValid, isAliasUnique } from '../../utils/validations'
 import { formatAlias } from '../../utils/contactUtils'
-import { USER_PREFERRED_CURRENCY } from '../../utils/constants'
+import { USER_PREFERRED_CURRENCY, FEATURED_TOKENS } from '../../utils/constants'
 import { createNewAccount } from '../../utils/secretsUtils'
 import { updateAssets } from '../../utils/assetsUtils'
 import withContext from '../../utils/hocs/withContext'
@@ -169,6 +170,17 @@ class BalanceScene extends Component {
     }
   }
 
+  _getBalancesToDisplay = () => {
+    const { balances, publicKey } = this.props.context
+
+    if (balances[publicKey]) {
+      const featuredBalances = FEATURED_TOKENS.map(token => { return { name: token, balance: 0 } })
+      return unionBy(balances[publicKey], featuredBalances, 'name')
+    }
+
+    return []
+  }
+
   render () {
     const {
       seed,
@@ -177,11 +189,7 @@ class BalanceScene extends Component {
       newAccountName,
       accountNameError
     } = this.state
-    const {
-      accounts,
-      balances,
-      publicKey
-    } = this.props.context
+    const { accounts } = this.props.context
     return (
       <React.Fragment>
         <NavigationHeader
@@ -206,7 +214,7 @@ class BalanceScene extends Component {
                   {tl.t('balance.confirmSeed')}
                 </BalanceWarning>
               )}
-              <WalletBalances balances={balances[publicKey]} />
+              <WalletBalances balances={this._getBalancesToDisplay()} />
             </Utils.Content>
           </ScrollView>
         </Utils.Container>
