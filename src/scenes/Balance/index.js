@@ -42,8 +42,7 @@ class BalanceScene extends Component {
     currency: null,
     appState: AppState.currentState,
     accountModalVisible: false,
-    newAccountName: '',
-    accountNameError: null
+    newAccountName: ''
   }
 
   componentDidMount () {
@@ -71,9 +70,9 @@ class BalanceScene extends Component {
     AppState.removeEventListener('change', this._handleAppStateChange)
   }
 
-  _createAccountPressed = () => {
-    const { accounts } = this.props.context
-    const newAccountName = `Account ${accounts.length}`
+  _createAccountPressed = async () => {
+    const { userSecrets } = this.props.context
+    const newAccountName = `Account ${userSecrets.length}`
 
     this.setState({ accountModalVisible: true, newAccountName, accountNameError: null })
   }

@@ -242,6 +242,7 @@ class App extends Component {
     freeze: {},
     balances: {},
     accounts: [],
+    userSecrets: [],
     publicKey: null,
     pin: null,
     oneSignalId: null,
@@ -291,7 +292,11 @@ class App extends Component {
     // console.log('openResult: ', openResult)
   }
   _loadUserData = async () => {
+    // accounts = filtered accounts by hidden status
+    // userSecrets =  ref to all userSecrets
+
     let accounts = await getUserSecrets(this.state.pin)
+    const userSecrets = accounts
     // First Time
     if (!accounts.length) return
 
@@ -304,7 +309,7 @@ class App extends Component {
           return Object.assign({}, stateAccount, account)
         })
     }
-    this.setState({ accounts }, async () => {
+    this.setState({ accounts, userSecrets }, async () => {
       await this._updateBalances(accounts)
       await this._updateAllFreeze(accounts)
       if (!this.state.publicKey) {
