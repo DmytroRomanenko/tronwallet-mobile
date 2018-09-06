@@ -60,9 +60,9 @@ class BalanceScene extends Component {
 
     this.refreshInterval = setInterval(this._onInterval, REFRESH_TIME)
 
-    Platform.OS === 'android'
-      ? this.activityStateListener = DeviceEventEmitter.addListener('ActivityStateChange', (e) => this._handleAppStateChange(e.event))
-      : this.appStateListener = AppState.addEventListener('change', this._handleAppStateChange)
+    this.appStateListener = Platform.OS === 'android'
+      ? DeviceEventEmitter.addListener('ActivityStateChange', (e) => this._handleAppStateChange(e.event))
+      : AppState.addEventListener('change', this._handleAppStateChange)
 
     // Update assets when you enter the wallet
     updateAssets()
@@ -72,9 +72,7 @@ class BalanceScene extends Component {
     this._navListener.remove()
     clearInterval(this.refreshInterval)
     AppState.removeEventListener('change', this._handleAppStateChange)
-    Platform.OS === 'android'
-      ? this.activityStateListener.remove()
-      : this.appStateListener.remove()
+    this.appStateListener.remove()
   }
 
   _createAccountPressed = () => {
