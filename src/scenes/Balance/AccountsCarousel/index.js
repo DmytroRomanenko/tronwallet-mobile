@@ -17,7 +17,7 @@ import tl from '../../../utils/i18n'
 import { Colors } from '../../../components/DesignSystem'
 import CardInfo from './CardInfo'
 
-const CURRENCIES = [tl.t('cancel'), 'USD', 'EUR', 'AUD', 'GBP', 'BTC', 'ETH']
+const CURRENCIES = [tl.t('cancel'), 'TRX', 'USD', 'EUR', 'AUD', 'GBP', 'BTC', 'ETH']
 
 class AccountsCarousel extends React.Component {
   _snapToNewAccount = () => {

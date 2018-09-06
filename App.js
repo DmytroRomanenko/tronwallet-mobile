@@ -264,7 +264,7 @@ class App extends Component {
 
     this._setNodes()
     this._loadAskPin()
-    const preferedCurrency = await AsyncStorage.getItem(USER_PREFERRED_CURRENCY)
+    const preferedCurrency = await AsyncStorage.getItem(USER_PREFERRED_CURRENCY) || 'TRX'
     this._getPrice(preferedCurrency)
     this.setState({ currency: preferedCurrency })
   }
@@ -382,7 +382,7 @@ class App extends Component {
     }
   }
 
-  _getPrice = async (currency = 'USD') => {
+  _getPrice = async (currency = 'TRX') => {
     try {
       const { data: { data } } = await axios.get(`${Config.TRX_PRICE_API}/?convert=${currency}`)
       const { price } = this.state

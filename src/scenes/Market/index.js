@@ -86,7 +86,8 @@ class MarketScene extends Component {
   }
 
   _loadData = async () => {
-    const currency = await AsyncStorage.getItem(USER_PREFERRED_CURRENCY) || 'USD'
+    const storageCurrency = await AsyncStorage.getItem(USER_PREFERRED_CURRENCY) || 'USD'
+    const currency = storageCurrency === 'TRX' ? 'USD' : storageCurrency
     this.props.context.getPrice(currency)
     this.setState({ currency })
   }
