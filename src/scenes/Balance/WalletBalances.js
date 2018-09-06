@@ -7,7 +7,7 @@ import { orderBalances } from '../../utils/balanceUtils'
 import { Colors } from '../../components/DesignSystem'
 import Badge from '../../components/Badge'
 import * as Utils from '../../components/Utils'
-import { orderAssets } from '../../utils/assetsUtils'
+import { orderAssets, getCustomName } from '../../utils/assetsUtils'
 import { AsyncStorage } from '../../../node_modules/aws-amplify/lib/Common'
 import { USER_FILTERED_TOKENS } from '../../utils/constants'
 import { logSentry } from '../../utils/sentryUtils'
@@ -59,7 +59,7 @@ class WalletBalances extends Component {
           {balancesToDisplay && orderBalances(balancesToDisplay).map((item) => (
             <Utils.Content key={item.name} paddingHorizontal='none' paddingVertical='medium'>
               <Utils.Row justify='space-between'>
-                <Badge bg={Colors.lightestBackground} guarantee={item.verified}>{item.name}</Badge>
+                <Badge bg={Colors.lightestBackground} guarantee={item.verified}>{getCustomName(item.name)}</Badge>
                 <Utils.Text>{formatNumber(item.balance)}</Utils.Text>
               </Utils.Row>
             </Utils.Content>

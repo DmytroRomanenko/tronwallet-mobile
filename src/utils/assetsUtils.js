@@ -11,6 +11,15 @@ export const updateAssets = async (start = 0, limit = 100, name = '') => {
   return assets
 }
 
+export const getCustomName = (name) => {
+  switch (name) {
+    case 'LoveHearts':
+      return 'LoveHearts \u2665'
+    default:
+      return name
+  }
+}
+
 export const orderAssets = (assets) => {
   let orderedVerified = []
   let rest = []

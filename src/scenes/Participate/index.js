@@ -18,7 +18,7 @@ import { debounce, union } from 'lodash'
 import tl from '../../utils/i18n'
 import getAssetsStore from '../../store/assets'
 import { Colors } from '../../components/DesignSystem'
-import { orderAssets, updateAssets } from '../../utils/assetsUtils'
+import { orderAssets, updateAssets, getCustomName } from '../../utils/assetsUtils'
 import { ONE_TRX } from '../../services/client'
 import guarantee from '../../assets/guarantee.png'
 import NavigationHeader from '../../components/Navigation/Header'
@@ -197,7 +197,7 @@ class ParticipateHome extends React.Component {
             <Row align='center'>
               <HorizontalSpacer size={8} />
 
-              <FeaturedTokenName>{name}</FeaturedTokenName>
+              <FeaturedTokenName>{getCustomName(name)}</FeaturedTokenName>
               <HorizontalSpacer size={4} />
               <Image source={guarantee} style={{ height: 14, width: 14 }} />
             </Row>
