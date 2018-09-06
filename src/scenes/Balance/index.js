@@ -70,7 +70,7 @@ class BalanceScene extends Component {
     AppState.removeEventListener('change', this._handleAppStateChange)
   }
 
-  _createAccountPressed = async () => {
+  _createAccountPressed = () => {
     const { userSecrets } = this.props.context
     const newAccountName = `Account ${userSecrets.length}`
 
