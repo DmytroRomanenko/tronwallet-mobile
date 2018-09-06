@@ -53,6 +53,8 @@ class AccountsCarousel extends React.Component {
 
   _renderItem = ({ item }) => {
     const { freeze, publicKey, currency } = this.props.context
+    const tronPower = freeze[publicKey] ? item.tronPower : 0
+    const bandwidth = freeze[publicKey] ? item.bandwidth : 0
     return (
       <CarouselCard>
         <LinearGradient
@@ -91,13 +93,11 @@ class AccountsCarousel extends React.Component {
               </TouchableOpacity>
             )}
             <Utils.VerticalSpacer size='medium' />
-            {(!!freeze[publicKey]) && (
-              <Utils.Row>
-                <CardInfo label={tl.t('tronPower')} value={item.tronPower || 0} />
-                <Utils.HorizontalSpacer size='medium' />
-                <CardInfo label={tl.t('balance.bandwidth')} value={item.bandwidth || 0} />
-              </Utils.Row>
-            )}
+            <Utils.Row>
+              <CardInfo label={tl.t('tronPower')} value={tronPower} />
+              <Utils.HorizontalSpacer size='medium' />
+              <CardInfo label={tl.t('balance.bandwidth')} value={bandwidth} />
+            </Utils.Row>
           </React.Fragment>
         </LinearGradient>
       </CarouselCard>

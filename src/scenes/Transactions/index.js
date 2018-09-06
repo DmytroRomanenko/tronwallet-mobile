@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { FlatList, AsyncStorage } from 'react-native'
+import { FlatList, AsyncStorage, Platform } from 'react-native'
 import { Answers } from 'react-native-fabric'
 
 import tl from '../../utils/i18n'
@@ -57,7 +57,6 @@ class TransactionsScene extends Component {
   _getSortedTransactionList = store =>
     store
       .objects('Transaction')
-      // .filtered(`ownerAddress = "${this.props.context.publicKey}"`)
       .sorted([['timestamp', true]])
       .map(item => Object.assign({}, item))
 
@@ -125,6 +124,8 @@ class TransactionsScene extends Component {
               data={transactions}
               keyExtractor={item => item.id}
               renderItem={({ item }) => <Transaction item={item} onPress={() => this._navigateToDetails(item)} publicKey={publicKey} />}
+              removeClippedSubviews={Platform.OS === 'android'}
+              onEndReachedThreshold={0.75}
             />
           </Background>
         )
