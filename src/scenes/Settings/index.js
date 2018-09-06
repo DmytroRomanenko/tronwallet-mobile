@@ -154,7 +154,7 @@ class Settings extends Component {
     const { loadUserData, pin } = this.props.context
     if (!accountsSelected.length) return
     try {
-      unhideSecret(pin, accountsSelected)
+      await unhideSecret(pin, accountsSelected)
       this._onLoadData()
       loadUserData()
     } catch (error) {

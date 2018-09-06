@@ -77,9 +77,7 @@ class AccountsCarousel extends React.Component {
     .concat(address.substring(25, address.length))
 
   _renderItem = ({ item, index }) => {
-    const { freeze, publicKey, currency } = this.props.context
-    const tronPower = freeze[publicKey] ? item.tronPower : 0
-    const bandwidth = freeze[publicKey] ? item.bandwidth : 0
+    const { currency } = this.props.context
     return (
       <CarouselCard>
         <LinearGradient
@@ -119,9 +117,9 @@ class AccountsCarousel extends React.Component {
             )}
             <Utils.VerticalSpacer size='medium' />
             <Utils.Row>
-              <CardInfo label={tl.t('tronPower')} value={tronPower} />
+              <CardInfo label={tl.t('tronPower')} value={item.tronPower || 0} />
               <Utils.HorizontalSpacer size='medium' />
-              <CardInfo label={tl.t('balance.bandwidth')} value={bandwidth} />
+              <CardInfo label={tl.t('balance.bandwidth')} value={item.bandwidth || 0} />
             </Utils.Row>
           </React.Fragment>
           {

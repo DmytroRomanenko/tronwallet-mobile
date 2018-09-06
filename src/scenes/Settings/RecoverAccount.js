@@ -11,9 +11,13 @@ class RecoverAccount extends Component {
     state ={
       accountsSelected: []
     }
+    _onConfirm =() => {
+      this.props.onUnhide(this.state.accountsSelected)
+      this.setState({accountsSelected: []})
+    }
     render () {
       const { accountsSelected } = this.state
-      const { hiddenAccounts, onUnhide, renderNoResults } = this.props
+      const { hiddenAccounts, renderNoResults } = this.props
       return (
         <SectionedMultiSelect
           ref={ref => { this.innerComponent = ref }}
@@ -21,7 +25,7 @@ class RecoverAccount extends Component {
           uniqueKey='address'
           onSelectedItemsChange={(selected) => { this.setState({ accountsSelected: selected }) }}
           selectedItems={accountsSelected}
-          onConfirm={() => onUnhide(accountsSelected)}
+          onConfirm={this._onConfirm}
           showChips={false}
           showCancelButton
           hideSelect

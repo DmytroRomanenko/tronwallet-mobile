@@ -75,15 +75,19 @@ class Restore extends Component {
 
   _checkAccount = async () => {
     const { address, privateKey } = this.state
+    const mockTransaction = {from: address, to: 'TJo2xFo14Rnx9vvMSm1kRTQhVHPW4KPQ76', amount: 0, token: 'TRX'}
     try {
       const transactionUnsigned = await WalletClient
-        .getTransferTransaction({from: address, to: 'TJo2xFo14Rnx9vvMSm1kRTQhVHPW4KPQ76', amount: 0, token: 'TRX'})
+        .getTransferTransaction(mockTransaction)
       const transactionSigned = await RNTron.signTransaction(privateKey, transactionUnsigned)
       await WalletClient.broadcastTransaction(transactionSigned)
     } catch (error) {
       const { response } = error
-      // Working on broadcastTransaction v2 to prevent this kind of code
+      // This is a FAIL TO TEST case
+      // If it is contract validate error then the combintation PK x ADDRESS is valid
+      // Else not a valid combintation
       if (response && response.data) {
+        // Working on broadcastTransaction v2 to prevent this kind of code
         if (response.data.error === 'contract validate error') return
         if (response.data.error !== 'validate signature error') logSentry(error, 'Check Account response')
       }
