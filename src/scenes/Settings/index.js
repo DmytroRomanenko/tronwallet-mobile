@@ -150,14 +150,15 @@ class Settings extends Component {
     )
   }
 
-  _onUnhideAccounts = async (accountsSelected) => {
+  _onUnhideAccounts = async (accountsSelected = []) => {
     const { loadUserData, pin } = this.props.context
+    if (!accountsSelected.length) return
     try {
-      await unhideSecret(pin, accountsSelected)
-      loadUserData()
+      unhideSecret(pin, accountsSelected)
       this._onLoadData()
+      loadUserData()
     } catch (error) {
-      // TODO - handle error
+      logSentry(error, 'Hide Accounts Error')
     }
   }
 
@@ -228,7 +229,6 @@ class Settings extends Component {
     }
   }
 
-  _
   _renderNoResults = () => (
     <Utils.Text lineHeight={20} size='small' color={Colors.background}>
       {tl.t('settings.token.noResult')}
@@ -352,13 +352,14 @@ class Settings extends Component {
           }
         ]
       },{
-        title: 'ACCOUNTS',
+        title: tl.t('settings.sectionTitles.accounts'),
         sectionLinks: [
           {
-            title: 'Recover my accounts',
-            icon: 'earth,-globe,-planet,-world,-universe',
-            hide: !this.state.hiddenAccounts.length,
-            onPress: () => this.AccountRecover.innerComponent._toggleSelector()
+            title:  tl.t('settings.accounts.restoreAccounts'),
+            icon: 'files,-agreement,-notes,-docs,-pages',
+            onPress: () => this.state.hiddenAccounts.length
+             ? this.AccountRecover.innerComponent._toggleSelector()
+             : Alert.alert(tl.t('account'), tl.t('settings.accounts.noAccounts'))
           },
         ]
       }
@@ -495,7 +496,6 @@ const styles = StyleSheet.create({
   rank: {
     paddingRight: 10
   }
-
 })
 
 export default withContext(Settings)

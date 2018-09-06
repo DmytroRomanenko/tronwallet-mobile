@@ -21,11 +21,14 @@
   "address": "Address",
   "ok": "OK",
   "actionModalTitle": "Would you like to",
+  "account" : "Account",
+  "restore" : "Restore",
   "error": {
     "default": "Woops something went wrong. Try again later, If the error persist try to update the network settings.",
     "buildingTransaction": "Error while building transaction, try again.",
     "gettingTransaction": "Error while getting transaction.",
-    "clipboardCopied": "Something wrong while copying"
+    "clipboardCopied": "Something wrong while copying",
+    "hideAccount" : "Something went wrong deleting account, try again'"
   },
   "tronPower": "TRON POWER",
   "trxPrice": "TRX PRICE",
@@ -60,6 +63,7 @@
     "tokens": "TOKENS",
     "holdings": "HOLDINGS"
   },
+  "hideAccount" : "You are about to remove this account. You can restore it later in the settings",
   "components": {
     "share": {
       "title": "Share TronWallet address",
@@ -285,7 +289,8 @@
     "sectionTitles": {
       "wallet": "WALLET",
       "security": "SECURITY",
-      "notification": "NOTIFICATIONS AND IDIOM"
+      "notification": "NOTIFICATIONS AND IDIOM",
+      "accounts": "ACCOUNTS MANAGEMENT"
     },
     "notifications": {
       "title": "Notifications"
@@ -362,6 +367,13 @@
     },
     "accepts": {
       "title": "Who accepts TRX?"
+    },
+    "accounts": {
+      "title" : "Accounts",
+      "search" : "Search accounts",
+      "restoreAccounts" : "Restore Accounts",
+      "noAccounts" : "No accounts to restore"
+
     },
     "partners": "PARTNERS",
     "askPin" :"Always ask PIN"

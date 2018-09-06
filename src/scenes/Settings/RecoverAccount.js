@@ -5,7 +5,7 @@ import SectionedMultiSelect from 'react-native-sectioned-multi-select'
 import { MultiSelectColors, MultiSelectStyles } from './elements'
 
 // Utils
-// import tl from '../../utils/i18n'
+import tl from '../../utils/i18n'
 
 class RecoverAccount extends Component {
     state ={
@@ -25,8 +25,8 @@ class RecoverAccount extends Component {
           showChips={false}
           showCancelButton
           hideSelect
-          searchPlaceholderText='SEARCH ACCOUNTS'
-          confirmText='RESTORE ACCOUNTS'
+          searchPlaceholderText={tl.t('settings.accounts.search')}
+          confirmText={tl.t('restore').toUpperCase()}
           noResultsComponent={renderNoResults()}
           colors={MultiSelectColors}
           styles={MultiSelectStyles}

@@ -45,7 +45,7 @@ class AccountsCarousel extends React.Component {
   _alertHideAccount = (address) => {
     Alert.alert(
       tl.t('warning'),
-      'You are about to remove this account. You can restore it later in the settings',
+      tl.t('hideAccount'),
       [
         {text: tl.t('cancel'), style: 'cancel'},
         {text: 'Remove', onPress: () => this._handleHideAccount(address)}
@@ -61,7 +61,7 @@ class AccountsCarousel extends React.Component {
       hideAccount(address)
     } catch (error) {
       logSentry(error, 'Hide Account Handler')
-      Alert.alert(tl.t('warning'), 'Something went wrong deleting account, try again')
+      Alert.alert(tl.t('warning'), tl.t('error.hideAccount'))
     }
   }
   _handleCurrencyChange = async (index) => {
