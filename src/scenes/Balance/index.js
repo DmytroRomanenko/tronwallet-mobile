@@ -4,7 +4,9 @@ import {
   ScrollView,
   AsyncStorage,
   TouchableOpacity,
-  AppState
+  AppState,
+  DeviceEventEmitter,
+  Platform
 } from 'react-native'
 import { Answers } from 'react-native-fabric'
 import { unionBy } from 'lodash'
@@ -41,7 +43,6 @@ class BalanceScene extends Component {
     error: null,
     balances: [],
     currency: null,
-    appState: AppState.currentState,
     accountModalVisible: false,
     newAccountName: '',
     accountNameError: null
@@ -60,7 +61,9 @@ class BalanceScene extends Component {
 
     this.refreshInterval = setInterval(this._onInterval, REFRESH_TIME)
 
-    AppState.addEventListener('change', this._handleAppStateChange)
+    this.appStateListener = Platform.OS === 'android'
+      ? DeviceEventEmitter.addListener('ActivityStateChange', (e) => this._handleAppStateChange(e.event))
+      : AppState.addEventListener('change', this._handleAppStateChange)
 
     // Update assets when you enter the wallet
     updateAssets()
@@ -69,7 +72,7 @@ class BalanceScene extends Component {
   componentWillUnmount () {
     this._navListener.remove()
     clearInterval(this.refreshInterval)
-    AppState.removeEventListener('change', this._handleAppStateChange)
+    this.appStateListener.remove()
   }
 
   _createAccountPressed = () => {
@@ -127,16 +130,14 @@ class BalanceScene extends Component {
   }
 
   _handleAppStateChange = nextAppState => {
-    const { appState } = this.state
     const { alwaysAskPin } = this.props.context
-    if (nextAppState.match(/inactive|background/) && appState === 'active' && alwaysAskPin) {
+    if (nextAppState.match(/background/) && alwaysAskPin) {
       this.setState({ accountModalVisible: false })
       this.props.navigation.navigate('Pin', {
         testInput: pin => pin === this.props.context.pin,
         onSuccess: () => {}
       })
     }
-    this.setState({ appState: nextAppState })
   }
 
   _loadData = async () => {
